@@ -1,0 +1,13 @@
+*.ipch
+*.pch
+*.tlog
+*.o
+*.obj
+*.pdb
+*.idb
+*.log
+*.opendb
+*.sdf
+*.db
+*.exp
+*.a
