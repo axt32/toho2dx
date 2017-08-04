@@ -27,48 +27,52 @@ bool GameStage::init()
 	//    you may modify it.
 
 	// add a "close" icon to exit the progress. it's an autorelease object
-	auto closeItem = MenuItemImage::create(
-		"CloseNormal.png",
-		"CloseSelected.png",
-		CC_CALLBACK_1(GameStage::menuCloseCallback, this));
+	auto btnChange = MenuItemImage::create(
+		"ui/btn_change.png",
+		"ui/btn_change.png",
+		CC_CALLBACK_1(GameStage::menuChangeCallback, this));
 
-	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width / 2,
-		origin.y + closeItem->getContentSize().height / 2));
+	btnChange->setPosition(Vec2(origin.x + visibleSize.width - btnChange->getContentSize().width * 2,
+		origin.y + btnChange->getContentSize().height / 2));
+
+	auto btnBomber = MenuItemImage::create(
+		"ui/btn_bomber.png",
+		"ui/btn_bomber.png",
+		CC_CALLBACK_1(GameStage::menuBomberCallback, this));
+
+	btnBomber->setPosition(Vec2(origin.x + visibleSize.width - btnChange->getContentSize().width / 2,
+		origin.y + btnBomber->getContentSize().height / 2));
 
 	// create menu, it's an autorelease object
-	auto menu = Menu::create(closeItem, NULL);
-	menu->setPosition(Vec2::ZERO);
-	this->addChild(menu, 1);
+	auto menuChange = Menu::create(btnChange, NULL);
+	menuChange->setPosition(Vec2::ZERO);
+	this->addChild(menuChange, 1);
 
-	m_sprReimu = Sprite::create("player/reimu/player.png");
+	auto menuBomber = Menu::create(btnBomber, NULL);
+	menuBomber->setPosition(Vec2::ZERO);
+	this->addChild(menuBomber, 1);
 
+	//스테이지 배경 초기화
 	m_sprWallpaper = Sprite::create("stage1/back.png");
-
 	m_sprWallpaper->setPosition(320, 180);		//추후 상수처리 필요
 	this->addChild(m_sprWallpaper);
 
-	Vector<SpriteFrame*> animFrames;
-	for (int i = 0; i < 11; i++)
-	{
-		animFrames.pushBack(SpriteFrame::create("player/reimu/player.png", Rect(i * 94, 0, 94, 102)));	//Rect를 쓰면 왼손 좌표계
-	}
+	//플레이어 레이어
+	layerPlayer = Layer::create();
+	layerPlayer->setAnchorPoint(ccp(0, 0));
+	layerPlayer->setPosition(ccp(0, 0));
+	this->addChild(layerPlayer);
 
-	m_sprReimu->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+	//플레이어 초기화
+	m_Player.InitPlayer();
+	m_Player.SetPosition(visibleSize.width / 2.0f + origin.x, visibleSize.height / 2.0f + origin.y);
+	layerPlayer->addChild(m_Player.GetCurrentCharacter(), 0);
 
-	auto animation = Animation::createWithSpriteFrames(animFrames, 0.05f);
-	auto animate = Animate::create(animation);
-	m_sprReimu->runAction(RepeatForever::create(animate));
-
-	this->addChild(m_sprReimu, 0);
-
+	//총알 레이어
 	layerBullet = Layer::create();
 	layerBullet->setAnchorPoint(ccp(0, 0));
 	layerBullet->setPosition(ccp(0, 0));
 	this->addChild(layerBullet);
-
-	//CCFiniteTimeAction* actionMove = CCMoveTo::create((float)10.0,ccp(0 - m_sprReimu->getPositionX(), 200.0f));
-	//CCFiniteTimeAction* actionMoveDone = CCCallFuncN::create(this, callfuncN_selector(HelloWorld::spriteMoveFinished));
-	//m_sprReimu->runAction(CCSequence::create(actionMove, actionMoveDone, NULL));
 
 	EventDispatcher * dispatcher = Director::getInstance()->getEventDispatcher();
 	auto listener = EventListenerTouchOneByOne::create();
@@ -83,27 +87,27 @@ bool GameStage::init()
 	return true;
 }
 
-void GameStage::RotateReimu(float ct)
+void GameStage::MovePlayer(float IN_fDestX, float IN_fDestY)
 {
-
-	if (m_sprReimu->getRotation() > angleOffset)
+	if (m_Player.m_bMoving == false)
 	{
-		m_sprReimu->setRotation(m_sprReimu->getRotation() - 2.0f);
+		m_Player.SetPosition(IN_fDestX, IN_fDestY);
+		CCFiniteTimeAction* actionMove = CCMoveTo::create((float)0.1f, ccp(IN_fDestX, IN_fDestY));
+		CCFiniteTimeAction* actionMoveDone = CCCallFuncN::create(this, callfuncN_selector(GameStage::spriteMoveFinished));
+		m_Player.GetCurrentCharacter()->runAction(CCSequence::create(actionMove, actionMoveDone, NULL));
+		m_Player.m_bMoving = true;
 	}
-	else if (m_sprReimu->getRotation() < angleOffset)
-	{
-		m_sprReimu->setRotation(m_sprReimu->getRotation() + 2.0f);
-	}
-
 }
 
 void GameStage::FireBullet()
 {
 	//총알을 레이무의 자식으로 설정
-	objBullet * bullet = objBullet::createAndInit(m_sprReimu->getRotation());
-	Vec2 pos = m_sprReimu->getPosition();
+//	objBullet * bullet = objBullet::createAndInit(m_sprReimu->getRotation());
+	objBullet * bullet = objBullet::createAndInit(90.0f);
+	Vec2 pos = m_Player.GetPosition();
 	bullet->setPosition(Point(pos.x, pos.y));
-	bullet->setRotation(m_sprReimu->getRotation());
+//	bullet->setRotation(m_sprReimu->getRotation());
+	bullet->setRotation(90.0f);
 	layerBullet->addChild(bullet);
 }
 
@@ -111,50 +115,29 @@ bool GameStage::onTouchBegan(Touch * touch, Event * event)
 {
 	auto target = event->getCurrentTarget();
 	touchPoint = target->convertToNodeSpace(touch->getLocation());
-	Size s = target->getContentSize();
-	Rect rect = Rect(0, 100, s.width, s.height);
-	//if (rect.containsPoint(touchPoint));		//일단은 렉트 체크는 하지 않는다.
-	{
-		//터치 각도 구하기
-		float diffX = touchPoint.x - s.width / 2.0f;
-		float diffY = touchPoint.y - s.height / 2.0f;
-		float angleRadian = atan2f(diffY, diffX);
-		angleOffset = CC_RADIANS_TO_DEGREES(angleRadian) * (-1.0f) + 90.0f;
-		this->schedule(schedule_selector(GameStage::RotateReimu));
-		FireBullet();
-		return true;
-	}
 
-	return false;
+	MovePlayer(touchPoint.x, touchPoint.y);
+
+	return true;
 }
 
 void GameStage::onTouchMoved(Touch * touch, Event * event)
 {
 	auto target = event->getCurrentTarget();
 	touchPoint = target->convertToNodeSpace(touch->getLocation());
-	Size s = target->getContentSize();
-	Rect rect = Rect(0, 100, s.width, s.height);
-	//터치 각도 구하기
-	float diffX = touchPoint.x - s.width / 2.0f;
-	float diffY = touchPoint.y - s.height / 2.0f;
-	float angleRadian = atan2f(diffY, diffX);
-	angleOffset = CC_RADIANS_TO_DEGREES(angleRadian) * (-1.0f) + 90.0f;
-	FireBullet();
+
+	MovePlayer(touchPoint.x, touchPoint.y);
 }
+
 void GameStage::onTouchEnded(Touch * touch, Event * event)
 {
-	this->unschedule(schedule_selector(GameStage::RotateReimu));
+
 }
 
 void GameStage::update(float dt)
 {
-
-}
-
-void GameStage::spriteMoveFinished(CCNode* sender)
-{
-	CCSprite *sprite = (CCSprite *)sender;
-	this->removeChild(sprite, true);
+	//상시 총알 발사
+	//FireBullet();
 }
 
 void GameStage::menuCloseCallback(Ref* pSender)
@@ -171,5 +154,22 @@ void GameStage::menuCloseCallback(Ref* pSender)
 	//EventCustom customEndEvent("game_scene_close_event");
 	//_eventDispatcher->dispatchEvent(&customEndEvent);
 
+}
 
+void GameStage::menuChangeCallback(cocos2d::Ref* pSender)
+{
+	layerPlayer->removeChild(m_Player.GetCurrentCharacter());
+	m_Player.ChangePlayer();
+	layerPlayer->addChild(m_Player.GetCurrentCharacter(), 0);
+}
+
+void GameStage::menuBomberCallback(cocos2d::Ref* pSender)
+{
+
+
+}
+
+void GameStage::spriteMoveFinished(CCNode* sender)
+{
+	m_Player.m_bMoving = false;
 }

@@ -50,7 +50,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	auto frameSize = glview->getFrameSize();
 	CCLOG("Frame Width:%f, Height:%f", frameSize.width, frameSize.height);
 	glview->setFrameSize(TARGET_WIDTH, TARGET_HEIGHT);
-	glview->setFrameZoomFactor(0.45);
+	glview->setFrameZoomFactor(1.0f);
   #endif
 
 	CCSize curSize = CCSize(TARGET_WIDTH, TARGET_HEIGHT);
