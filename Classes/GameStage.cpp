@@ -1,6 +1,7 @@
 #include "GameStage.h"
 #include "SimpleAudioEngine.h"
 #include "objBullet.h"
+#include "GameUtil.h"
 
 USING_NS_CC;
 
@@ -57,16 +58,11 @@ bool GameStage::init()
 	m_sprWallpaper->setPosition(320, 180);		//추후 상수처리 필요
 	this->addChild(m_sprWallpaper);
 
-	//플레이어 레이어
-	layerPlayer = Layer::create();
-	layerPlayer->setAnchorPoint(ccp(0, 0));
-	layerPlayer->setPosition(ccp(0, 0));
-	this->addChild(layerPlayer);
-
 	//플레이어 초기화
 	m_Player.InitPlayer();
+	this->addChild(m_Player.m_layerPlayer);
+
 	m_Player.SetPosition(visibleSize.width / 2.0f + origin.x, visibleSize.height / 2.0f + origin.y);
-	layerPlayer->addChild(m_Player.GetCurrentCharacter(), 0);
 
 	//총알 레이어
 	layerBullet = Layer::create();
@@ -89,14 +85,12 @@ bool GameStage::init()
 
 void GameStage::MovePlayer(float IN_fDestX, float IN_fDestY)
 {
-	if (m_Player.m_bMoving == false)
-	{
-		m_Player.SetPosition(IN_fDestX, IN_fDestY);
-		CCFiniteTimeAction* actionMove = CCMoveTo::create((float)0.1f, ccp(IN_fDestX, IN_fDestY));
-		CCFiniteTimeAction* actionMoveDone = CCCallFuncN::create(this, callfuncN_selector(GameStage::spriteMoveFinished));
-		m_Player.GetCurrentCharacter()->runAction(CCSequence::create(actionMove, actionMoveDone, NULL));
-		m_Player.m_bMoving = true;
-	}
+	m_Player.m_layerPlayer->setPosition(IN_fDestX, IN_fDestY);
+	return;
+
+	CCFiniteTimeAction* actionMove = CCMoveTo::create((float)0.1f, ccp(IN_fDestX, IN_fDestY));
+	CCFiniteTimeAction* actionMoveDone = CCCallFuncN::create(this, callfuncN_selector(GameStage::spriteMoveFinished));
+	m_Player.m_layerPlayer->runAction(CCSequence::create(actionMove, actionMoveDone, NULL));
 }
 
 void GameStage::FireBullet()
@@ -113,25 +107,35 @@ void GameStage::FireBullet()
 
 bool GameStage::onTouchBegan(Touch * touch, Event * event)
 {
+	//다중터치 고려안됨?
 	auto target = event->getCurrentTarget();
 	touchPoint = target->convertToNodeSpace(touch->getLocation());
 
-	MovePlayer(touchPoint.x, touchPoint.y);
+	if (m_Player.m_bMoving == false)
+	{
+		if (GameUtil::CircleCollisionCheck(m_Player.GetPosition().x, m_Player.GetPosition().y, PLAYERSIZE_RADIUS, touchPoint.x, touchPoint.y, 1.0f) == true)
+		{
+			m_Player.m_bMoving = true;
+			MovePlayer(touchPoint.x, touchPoint.y);
+		}
+	}
 
 	return true;
 }
 
 void GameStage::onTouchMoved(Touch * touch, Event * event)
 {
-	auto target = event->getCurrentTarget();
-	touchPoint = target->convertToNodeSpace(touch->getLocation());
-
-	MovePlayer(touchPoint.x, touchPoint.y);
+	if (m_Player.m_bMoving == true)
+	{
+		auto target = event->getCurrentTarget();
+		touchPoint = target->convertToNodeSpace(touch->getLocation());
+		MovePlayer(touchPoint.x, touchPoint.y);
+	}
 }
 
 void GameStage::onTouchEnded(Touch * touch, Event * event)
 {
-
+	m_Player.m_bMoving = false;
 }
 
 void GameStage::update(float dt)
@@ -158,9 +162,7 @@ void GameStage::menuCloseCallback(Ref* pSender)
 
 void GameStage::menuChangeCallback(cocos2d::Ref* pSender)
 {
-	layerPlayer->removeChild(m_Player.GetCurrentCharacter());
 	m_Player.ChangePlayer();
-	layerPlayer->addChild(m_Player.GetCurrentCharacter(), 0);
 }
 
 void GameStage::menuBomberCallback(cocos2d::Ref* pSender)
@@ -171,5 +173,5 @@ void GameStage::menuBomberCallback(cocos2d::Ref* pSender)
 
 void GameStage::spriteMoveFinished(CCNode* sender)
 {
-	m_Player.m_bMoving = false;
+
 }

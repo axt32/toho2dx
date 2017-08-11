@@ -17,7 +17,6 @@ public:
 	cocos2d::Sprite * m_sprWallpaper;
 	cocos2d::Point touchPoint;
 	float angleOffset;
-	cocos2d::Layer * layerPlayer;
 	cocos2d::Layer * layerBullet;
 
 	static cocos2d::Scene* createScene();

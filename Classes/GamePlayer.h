@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h";
+#include "GameObject.h"
 
 enum CHARATYPE
 {
@@ -7,12 +7,13 @@ enum CHARATYPE
 	CHARATYPE_MARISA
 };
 
+#define PLAYERSIZE_RADIUS 75		//넉넉하게 잡음.
+#define HEATBOX_RADIUS 5
+
 class GamePlayer
 {
 private:
 	GameObject * m_Characters[2];
-	float m_fX;
-	float m_fY;
 
 public:
 	GamePlayer();
@@ -23,15 +24,16 @@ public:
 	void SetPosition(int IN_fX, int IN_fY);
 	Vec2 GetPosition();
 
-	bool MoveTo(int IN_fDestX, int IN_fDestY);
-
 	GameObject * GetCurrentCharacter();
+	GameObject * GetCharacter(CHARATYPE IN_iType);
 	int ChangePlayer();
+
+	cocos2d::Layer * m_layerPlayer;
+	GameObject * m_HeatBox;
 
 	int m_iLives;
 	int m_iCurrentPlayer;		//0 : 레이무, 1 : 마리사
 	int m_iAbilityEnergy;
-	bool m_bCharaChange;
 	bool m_bMoving;
 
 };

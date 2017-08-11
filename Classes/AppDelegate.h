@@ -1,3 +1,8 @@
+// TOHO 2DX (Barrage Revolution Project Another Episode)
+// BRP-007
+// (C) 2017 AXTSOFT
+// Barrage Revolution Project 2005 2006 2007 2010 2011 2014 2016 2017 (C) AXTSOFT
+
 #ifndef  _APP_DELEGATE_H_
 #define  _APP_DELEGATE_H_
 
