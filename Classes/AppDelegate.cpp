@@ -1,9 +1,10 @@
 #include "AppDelegate.h"
 #include "GameStage.h"
+#include "Common.h"
 
 USING_NS_CC;
-#define TARGET_WIDTH 640		//1920*1080
-#define TARGET_HEIGHT	360
+#define TARGET_WIDTH GAME_WIDTH		//Galaxy S7 Edge -> 1920*1080
+#define TARGET_HEIGHT	GAME_HEIGHT
 
 static cocos2d::Size designResolutionSize = cocos2d::Size(TARGET_WIDTH, TARGET_HEIGHT);
 

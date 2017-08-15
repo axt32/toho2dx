@@ -1,6 +1,5 @@
 #include "GameStage.h"
 #include "SimpleAudioEngine.h"
-#include "objBullet.h"
 #include "GameUtil.h"
 
 USING_NS_CC;
@@ -54,9 +53,9 @@ bool GameStage::init()
 	this->addChild(menuBomber, 1);
 
 	//스테이지 배경 초기화
-	m_sprWallpaper = Sprite::create("stage1/back.png");
-	m_sprWallpaper->setPosition(320, 180);		//추후 상수처리 필요
-	this->addChild(m_sprWallpaper);
+	m_sprBackground = Sprite::create("stage1/back.png");
+	m_sprBackground->setPosition(320, 180);		//추후 상수처리 필요
+	this->addChild(m_sprBackground);
 
 	//플레이어 초기화
 	m_Player.InitPlayer();
@@ -64,12 +63,7 @@ bool GameStage::init()
 
 	m_Player.SetPosition(visibleSize.width / 2.0f + origin.x, visibleSize.height / 2.0f + origin.y);
 
-	//총알 레이어
-	layerBullet = Layer::create();
-	layerBullet->setAnchorPoint(ccp(0, 0));
-	layerBullet->setPosition(ccp(0, 0));
-	this->addChild(layerBullet);
-
+	//터치 이벤트 (플레이어 이동 관련)
 	EventDispatcher * dispatcher = Director::getInstance()->getEventDispatcher();
 	auto listener = EventListenerTouchOneByOne::create();
 	listener->setSwallowTouches(true);
@@ -78,6 +72,18 @@ bool GameStage::init()
 	listener->onTouchEnded = CC_CALLBACK_2(GameStage::onTouchEnded, this);
 	dispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
+	//플레이어 총알 자동 발사 액션
+	CallFunc * action_0 = CallFunc::create(CC_CALLBACK_0(GameStage::PlayerFireBullet, this));
+	Sequence * action_playerfirebullet = Sequence::create(action_0, NULL);
+	m_Player.m_layerPlayer->runAction(action_playerfirebullet);
+
+	//총알 레이어 (autorelease 하면 프로그램이 꼬임)
+	layerBulletEnemy = Layer::create();
+	layerBulletEnemy->setAnchorPoint(ccp(0, 0));
+	layerBulletEnemy->setPosition(ccp(0, 0));
+	this->addChild(layerBulletEnemy);
+
+	//스테이지의 스케줄 업데이터
 	this->scheduleUpdate();
 
 	return true;
@@ -88,6 +94,7 @@ void GameStage::MovePlayer(float IN_fDestX, float IN_fDestY)
 	m_Player.m_layerPlayer->setPosition(IN_fDestX, IN_fDestY);
 	return;
 
+	//쓰지 않음.
 	CCFiniteTimeAction* actionMove = CCMoveTo::create((float)0.1f, ccp(IN_fDestX, IN_fDestY));
 	CCFiniteTimeAction* actionMoveDone = CCCallFuncN::create(this, callfuncN_selector(GameStage::spriteMoveFinished));
 	m_Player.m_layerPlayer->runAction(CCSequence::create(actionMove, actionMoveDone, NULL));
@@ -95,14 +102,32 @@ void GameStage::MovePlayer(float IN_fDestX, float IN_fDestY)
 
 void GameStage::FireBullet()
 {
-	//총알을 레이무의 자식으로 설정
-//	objBullet * bullet = objBullet::createAndInit(m_sprReimu->getRotation());
-	objBullet * bullet = objBullet::createAndInit(90.0f);
+	//캐릭터별로, 방향별로 발사 메소드를 다르게 해야 한다. 일단은 레이무 샷만 구현
+
+	GameObject * pBullet = new GameObject;	
+	pBullet->initWithFile("player/reimu/shot0.png");
 	Vec2 pos = m_Player.GetPosition();
-	bullet->setPosition(Point(pos.x, pos.y));
-//	bullet->setRotation(m_sprReimu->getRotation());
-	bullet->setRotation(90.0f);
-	layerBullet->addChild(bullet);
+	pBullet->setPosition(Point(pos.x, pos.y));
+	pBullet->SetSpeedAngle(3.0f, 90.0f);
+	pBullet->setRotation(90.0f);
+	pBullet->autorelease();
+	layerBulletEnemy->addChild(pBullet);
+}
+
+void GameStage::PlayerFireBullet() {
+
+	//CCLOG("goCall %s", (char*)d);
+	//Sprite *spr = (Sprite *)pSender;
+
+	GameObject * pBullet = new GameObject;
+	pBullet->initWithFile("player/reimu/shot0.png");
+	Vec2 pos = m_Player.GetPosition();
+	pBullet->setPosition(Point(pos.x, pos.y));
+	pBullet->SetSpeedAngle(3.0f, 90.0f);
+	pBullet->setRotation(90.0f);
+	pBullet->autorelease();
+	layerBulletEnemy->addChild(pBullet);
+
 }
 
 bool GameStage::onTouchBegan(Touch * touch, Event * event)
@@ -131,6 +156,8 @@ void GameStage::onTouchMoved(Touch * touch, Event * event)
 		touchPoint = target->convertToNodeSpace(touch->getLocation());
 		MovePlayer(touchPoint.x, touchPoint.y);
 	}
+
+	//FireBullet();	//테스트용
 }
 
 void GameStage::onTouchEnded(Touch * touch, Event * event)
@@ -140,8 +167,7 @@ void GameStage::onTouchEnded(Touch * touch, Event * event)
 
 void GameStage::update(float dt)
 {
-	//상시 총알 발사
-	//FireBullet();
+
 }
 
 void GameStage::menuCloseCallback(Ref* pSender)
@@ -167,8 +193,7 @@ void GameStage::menuChangeCallback(cocos2d::Ref* pSender)
 
 void GameStage::menuBomberCallback(cocos2d::Ref* pSender)
 {
-
-
+	
 }
 
 void GameStage::spriteMoveFinished(CCNode* sender)

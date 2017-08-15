@@ -14,10 +14,10 @@ public:
 	GamePlayer m_Player;
 
 public:
-	cocos2d::Sprite * m_sprWallpaper;
+	cocos2d::Sprite * m_sprBackground;
 	cocos2d::Point touchPoint;
 	float angleOffset;
-	cocos2d::Layer * layerBullet;
+	cocos2d::Layer * layerBulletEnemy;
 
 	static cocos2d::Scene* createScene();
 
@@ -35,6 +35,8 @@ public:
 
 	void MovePlayer(float IN_fDestX, float IN_fDestY);
 	void FireBullet();
+
+	void PlayerFireBullet();
 
 	bool onTouchBegan(cocos2d::Touch * touch, cocos2d::Event * event);
 	void onTouchMoved(cocos2d::Touch * touch, cocos2d::Event * event);
