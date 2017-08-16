@@ -13,10 +13,9 @@ LOCAL_MODULE_FILENAME := libMyGame
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/AppDelegate.cpp \
-                   ../../../Classes/GameStage.cpp \
-				   ../../../Classes/objBullet.cpp \
 				   ../../../Classes/GameObject.cpp \
 				   ../../../Classes/GamePlayer.cpp \
+                   ../../../Classes/GameStage.cpp \
 				   ../../../Classes/GameUtil.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
