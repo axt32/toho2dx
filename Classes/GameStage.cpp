@@ -74,8 +74,10 @@ bool GameStage::init()
 
 	//플레이어 총알 자동 발사 액션
 	CallFunc * action_0 = CallFunc::create(CC_CALLBACK_0(GameStage::PlayerFireBullet, this));
-	Sequence * action_playerfirebullet = Sequence::create(action_0, NULL);
-	m_Player.m_layerPlayer->runAction(action_playerfirebullet);
+	CCDelayTime * action_1 = CCDelayTime::create(0.1f);
+	Sequence * action_playerfirebullet = Sequence::create(action_0, action_1, NULL);
+	CCRepeatForever * action_repeat = CCRepeatForever::create(action_playerfirebullet);
+	m_Player.m_layerPlayer->runAction(action_repeat);
 
 	//총알 레이어 (autorelease 하면 프로그램이 꼬임)
 	layerBulletEnemy = Layer::create();
