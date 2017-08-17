@@ -1,6 +1,3 @@
-//#ifndef __HELLOWORLD_SCENE_H__
-//#define __HELLOWORLD_SCENE_H__
-
 #pragma once
 
 #include "cocos2d.h"
@@ -18,7 +15,7 @@ public:
 	cocos2d::Sprite * m_sprBackground;
 	cocos2d::Point touchPoint;
 	float angleOffset;
-	cocos2d::Layer * layerBulletEnemy;
+	cocos2d::Layer * layerEnemyBullet;
 
 	static cocos2d::Scene* createScene();
 
@@ -43,5 +40,3 @@ public:
 
 //	void spriteMoveFinished(cocos2d::CCNode* sender);
 };
-
-//#endif // __HELLOWORLD_SCENE_H__

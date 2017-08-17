@@ -5,10 +5,11 @@
 class GameEnemyBullet : public GameObject
 {
 public:
-	GameCustomFunction * pInitFunciton;
-	GameCustomFunction * pRunFunction;
+	GameEnemyBullet();
+	virtual ~GameEnemyBullet();
 
-	
+	GameCustomFunction * pCustomFunction;
 
+	void InvokeInit();
 	virtual void update(float dt);
 };

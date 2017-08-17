@@ -42,10 +42,7 @@
     <ClCompile Include="..\Classes\GameCustomFuction.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\EnemyFunctions.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\VaListElement.cpp">
+    <ClCompile Include="..\Classes\GameEnemyFunctions.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -83,10 +80,7 @@
     <ClInclude Include="..\Classes\GameCustomFunction.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\EnemyFunctions.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\VaListElement.h">
+    <ClInclude Include="..\Classes\GameEnemyFunctions.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,5 +4,7 @@
 class GameBullet : public GameEnemyBullet
 {
 public:
+	GameBullet();
+	~GameBullet();
 
 };

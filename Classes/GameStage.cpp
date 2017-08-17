@@ -1,6 +1,9 @@
 #include "GameStage.h"
 #include "SimpleAudioEngine.h"
 #include "GameUtil.h"
+#include "GameEnemy.h"
+#include "GameBullet.h"
+#include "GameEnemyFunctions.h"
 
 USING_NS_CC;
 
@@ -80,10 +83,23 @@ bool GameStage::init()
 	m_Player.m_layerPlayer->runAction(action_repeat);
 
 	//총알 레이어 (autorelease 하면 프로그램이 꼬임)
-	layerBulletEnemy = Layer::create();
-	layerBulletEnemy->setAnchorPoint(ccp(0, 0));
-	layerBulletEnemy->setPosition(ccp(0, 0));
-	this->addChild(layerBulletEnemy);
+	layerEnemyBullet = Layer::create();
+	layerEnemyBullet->setAnchorPoint(ccp(0, 0));
+	layerEnemyBullet->setPosition(ccp(0, 0));
+	this->addChild(layerEnemyBullet);
+
+	//테스트용 (테스트 에너미 생성)
+	GameEnemy * pEnemyTest = new GameEnemy;
+	pEnemyTest->initWithFile("enemies/type1.png");
+	pEnemyTest->AddSprAnimation("enemies/type1.png", ENEMY_TYPE1_WIDTH, ENEMY_TYPE1_HEIGHT, ENEMY_TYPE1_FRAMES);
+	pEnemyTest->setPosition(Point(100.f, 100.f));
+	pEnemyTest->autorelease();
+	
+	//에너미 함수 연결
+	pEnemyTest->pCustomFunction = new EnemyFunctions::EnemyFunction_Test;
+	pEnemyTest->InvokeInit();
+	layerEnemyBullet->addChild(pEnemyTest);
+
 
 	//스테이지의 스케줄 업데이터
 	this->scheduleUpdate();
@@ -103,8 +119,8 @@ void GameStage::MovePlayer(float IN_fDestX, float IN_fDestY)
 
 void GameStage::FireBullet()
 {
-	//캐릭터별로, 방향별로 발사 메소드를 다르게 해야 한다. 일단은 레이무 샷만 구현
-
+	//캐릭터별로, 방향별로 발사 메소드를 다르게 해야 한다.
+	//추후 플레이어 샷도 GamePlayerShot 클래스로 상속시켜야함.
 	GameObject * pBullet = new GameObject;	
 	pBullet->initWithFile("player/reimu/shot0.png");
 	Vec2 pos = m_Player.GetPosition();
@@ -112,7 +128,7 @@ void GameStage::FireBullet()
 	pBullet->SetSpeedAngle(3.0f, 90.0f);
 	pBullet->setRotation(90.0f);
 	pBullet->autorelease();
-	layerBulletEnemy->addChild(pBullet);
+	layerEnemyBullet->addChild(pBullet);
 }
 
 void GameStage::PlayerFireBullet() {
@@ -132,7 +148,7 @@ void GameStage::PlayerFireBullet() {
 			pBullet->setRotation(90.0f);
 			pBullet->m_bBoundaryCheck = true;
 			pBullet->autorelease();
-			layerBulletEnemy->addChild(pBullet);
+			layerEnemyBullet->addChild(pBullet);
 		};
 
 		MakeReimuShot(20.0f);
@@ -155,7 +171,7 @@ void GameStage::PlayerFireBullet() {
 			//pBullet->SetAutoRotation();
 			pBullet->m_bBoundaryCheck = true;
 			pBullet->autorelease();
-			layerBulletEnemy->addChild(pBullet);
+			layerEnemyBullet->addChild(pBullet);
 		};
 
 
@@ -223,6 +239,7 @@ void GameStage::menuCloseCallback(Ref* pSender)
 
 void GameStage::menuChangeCallback(cocos2d::Ref* pSender)
 {
+	//캐릭터 체인지
 	m_Player.ChangePlayer();
 }
 

@@ -1,8 +1,11 @@
 #include "GameEnemy.h"
 
-void testfunc()
+GameEnemy::GameEnemy()
 {
-	int i;
-	typeid(i).name();
+
+}
+
+GameEnemy::~GameEnemy()
+{
 
 }

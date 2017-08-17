@@ -5,9 +5,10 @@ USING_NS_CC;
 
 class GameObject : public Sprite
 {
-private:
-
 public:
+	GameObject();
+	virtual ~GameObject();
+
 	bool m_bAutoMove;
 	bool m_bAutoRotation;
 	bool m_bBoundaryCheck;		//자동회전 (기능 불완전. 윈도우에서는 잘 되는데 안드로이드에서는 튕김)
@@ -17,9 +18,6 @@ public:
 	float m_fAutoRotationAngle;
 
 	float m_fCollisionRadius;		//충돌체크 판정 범위
-
-	GameObject();
-	~GameObject();
 
 	void SetSpeedAngle(float IN_fSpeed, float IN_fAngle);
 	void SetAutoRotation(bool IN_bAutoRotation = true, float IN_fAutoRotationAngle = 1.0f);
