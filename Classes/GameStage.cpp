@@ -193,8 +193,6 @@ void GameStage::onTouchMoved(Touch * touch, Event * event)
 		touchPoint = target->convertToNodeSpace(touch->getLocation());
 		MovePlayer(touchPoint.x, touchPoint.y);
 	}
-
-	//FireBullet();	//테스트용
 }
 
 void GameStage::onTouchEnded(Touch * touch, Event * event)
@@ -204,7 +202,7 @@ void GameStage::onTouchEnded(Touch * touch, Event * event)
 
 void GameStage::update(float dt)
 {
-
+	
 }
 
 void GameStage::menuCloseCallback(Ref* pSender)
@@ -233,7 +231,7 @@ void GameStage::menuBomberCallback(cocos2d::Ref* pSender)
 	
 }
 
-void GameStage::spriteMoveFinished(CCNode* sender)
-{
-
-}
+//void GameStage::spriteMoveFinished(CCNode* sender)
+//{
+//
+//}
