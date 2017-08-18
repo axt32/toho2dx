@@ -1,5 +1,5 @@
 #include "GamePlayer.h"
-#include "GameObject.h"
+#include "GameBaseObject.h"
 
 #define REIMU_WIDTH 94
 #define REIMU_HEIGHT 102
@@ -24,11 +24,11 @@ GamePlayer::~GamePlayer()
 
 void GamePlayer::InitPlayer()
 {
-	m_Characters[CHARATYPE_REIMU] = new GameObject;
+	m_Characters[CHARATYPE_REIMU] = new GameBaseObject;
 	m_Characters[CHARATYPE_REIMU]->initWithFile("player/reimu/player.png");
 	m_Characters[CHARATYPE_REIMU]->AddSprAnimation("player/reimu/player.png", REIMU_WIDTH, REIMU_HEIGHT, REIMU_FRAMES);
 
-	m_Characters[CHARATYPE_MARISA] = new GameObject;
+	m_Characters[CHARATYPE_MARISA] = new GameBaseObject;
 	m_Characters[CHARATYPE_MARISA]->initWithFile("player/marisa/player.png");
 	m_Characters[CHARATYPE_MARISA]->AddSprAnimation("player/marisa/player.png", MARISA_WIDTH, MARISA_HEIGHT, MARISA_FRAMES);
 
@@ -38,7 +38,7 @@ void GamePlayer::InitPlayer()
 
 	m_bMoving = false;
 
-	m_HeatBox = new GameObject;
+	m_HeatBox = new GameBaseObject;
 	m_HeatBox->initWithFile("player/common/heatbox.png");
 
 	m_layerPlayer = Layer::create();
@@ -59,12 +59,12 @@ Vec2 GamePlayer::GetPosition()
 	return Vec2(m_layerPlayer->getPositionX(), m_layerPlayer->getPositionY());
 }
 
-GameObject * GamePlayer::GetCurrentCharacter()
+GameBaseObject * GamePlayer::GetCurrentCharacter()
 {
 	return m_Characters[m_iCurrentPlayer];
 }
 
-GameObject * GamePlayer::GetCharacter(CHARATYPE IN_iType)
+GameBaseObject * GamePlayer::GetCharacter(CHARATYPE IN_iType)
 {
 	return m_Characters[IN_iType];
 }

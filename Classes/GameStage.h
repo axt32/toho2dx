@@ -2,8 +2,6 @@
 
 #include "cocos2d.h"
 #include "GamePlayer.h"
-#include "GameEnemy.h"
-#include "GameBullet.h"
 
 class GameStage : public cocos2d::Scene		//원래는 Scene 였음
 {
@@ -26,8 +24,6 @@ public:
 	CREATE_FUNC(GameStage);
 
 	void MovePlayer(float IN_fDestX, float IN_fDestY);
-	void FireBullet();
-
 	void PlayerFireBullet();
 
 	bool onTouchBegan(cocos2d::Touch * touch, cocos2d::Event * event);

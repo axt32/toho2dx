@@ -3,15 +3,19 @@
 #include <string>
 USING_NS_CC;
 
-class GameObject : public Sprite
+class GameBaseObject : public Sprite
 {
+private:
+	bool m_bInsideOK;
+
 public:
-	GameObject();
-	virtual ~GameObject();
+	GameBaseObject();
+	virtual ~GameBaseObject();
 
 	bool m_bAutoMove;
-	bool m_bAutoRotation;
-	bool m_bBoundaryCheck;		//자동회전 (기능 불완전. 윈도우에서는 잘 되는데 안드로이드에서는 튕김)
+	bool m_bAutoRotation	;//자동회전 (기능 불완전. 윈도우에서는 잘 되는데 안드로이드에서는 튕김)
+	bool m_bInsideCheck;
+	bool m_bBoundaryCheck;		
 
 	float m_fSpeed;
 	float m_fAngle;

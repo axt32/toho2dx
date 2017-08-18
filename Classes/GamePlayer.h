@@ -1,5 +1,5 @@
 #pragma once
-#include "GameObject.h"
+#include "GameBaseObject.h"
 
 enum CHARATYPE
 {
@@ -13,7 +13,7 @@ enum CHARATYPE
 class GamePlayer
 {
 private:
-	GameObject * m_Characters[2];
+	GameBaseObject * m_Characters[2];
 
 public:
 	GamePlayer();
@@ -24,12 +24,12 @@ public:
 	void SetPosition(int IN_fX, int IN_fY);
 	Vec2 GetPosition();
 
-	GameObject * GetCurrentCharacter();
-	GameObject * GetCharacter(CHARATYPE IN_iType);
+	GameBaseObject * GetCurrentCharacter();
+	GameBaseObject * GetCharacter(CHARATYPE IN_iType);
 	int ChangePlayer();
 
 	cocos2d::Layer * m_layerPlayer;
-	GameObject * m_HeatBox;
+	GameBaseObject * m_HeatBox;
 
 	int m_iLives;
 	int m_iCurrentPlayer;		//0 : 레이무, 1 : 마리사

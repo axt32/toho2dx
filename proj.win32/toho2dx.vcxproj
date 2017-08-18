@@ -149,12 +149,13 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\GameEnemyFunctions.cpp" />
-    <ClCompile Include="..\Classes\GameBullet.cpp" />
+    <ClCompile Include="..\Classes\GameEnemyShot.cpp" />
     <ClCompile Include="..\Classes\GameCustomFuction.cpp" />
     <ClCompile Include="..\Classes\GameEnemy.cpp" />
-    <ClCompile Include="..\Classes\GameEnemyBullet.cpp" />
-    <ClCompile Include="..\Classes\GameObject.cpp" />
+    <ClCompile Include="..\Classes\GameCommonObject.cpp" />
+    <ClCompile Include="..\Classes\GameBaseObject.cpp" />
     <ClCompile Include="..\Classes\GamePlayer.cpp" />
+    <ClCompile Include="..\Classes\GamePlayerShot.cpp" />
     <ClCompile Include="..\Classes\GameStage.cpp" />
     <ClCompile Include="..\Classes\GameUtil.cpp" />
     <ClCompile Include="main.cpp" />
@@ -163,12 +164,13 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\Common.h" />
     <ClInclude Include="..\Classes\GameEnemyFunctions.h" />
-    <ClInclude Include="..\Classes\GameBullet.h" />
+    <ClInclude Include="..\Classes\GameEnemyShot.h" />
     <ClInclude Include="..\Classes\GameCustomFunction.h" />
     <ClInclude Include="..\Classes\GameEnemy.h" />
-    <ClInclude Include="..\Classes\GameEnemyBullet.h" />
-    <ClInclude Include="..\Classes\GameObject.h" />
+    <ClInclude Include="..\Classes\GameCommonObject.h" />
+    <ClInclude Include="..\Classes\GameBaseObject.h" />
     <ClInclude Include="..\Classes\GamePlayer.h" />
+    <ClInclude Include="..\Classes\GamePlayerShot.h" />
     <ClInclude Include="..\Classes\GameStage.h" />
     <ClInclude Include="..\Classes\GameUtil.h" />
     <ClInclude Include="main.h" />

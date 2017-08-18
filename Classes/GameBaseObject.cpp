@@ -1,34 +1,37 @@
-#include "GameObject.h"
+#include "GameBaseObject.h"
 #include "Common.h"
 
-GameObject::GameObject()
+GameBaseObject::GameBaseObject()
 {
+	m_bInsideOK = false;
+
 	m_bAutoMove = false;
 	m_bAutoRotation = false;
+	m_bInsideCheck = false;
 	m_bBoundaryCheck = false;
 	m_fAutoRotationAngle = 1.0f;
-	this->schedule(schedule_selector(GameObject::update));
+	this->schedule(schedule_selector(GameBaseObject::update));
 }
 
-GameObject::~GameObject()
+GameBaseObject::~GameBaseObject()
 {
 
 }
 
-void GameObject::SetSpeedAngle(float IN_fSpeed, float IN_fAngle)
+void GameBaseObject::SetSpeedAngle(float IN_fSpeed, float IN_fAngle)
 {
 	m_fSpeed = IN_fSpeed;
 	m_fAngle = IN_fAngle;
 	m_bAutoMove = true;
 }
 
-void GameObject::SetAutoRotation(bool IN_bAutoRotation, float IN_fAutoRotationAngle)
+void GameBaseObject::SetAutoRotation(bool IN_bAutoRotation, float IN_fAutoRotationAngle)
 {
 	m_fAutoRotationAngle = IN_fAutoRotationAngle;
 	m_bAutoRotation = IN_bAutoRotation;
 }
 
-bool GameObject::AddSprAnimation(std::string IN_strFileName, int IN_iWidth, int IN_iHeight, int IN_iFrames)
+bool GameBaseObject::AddSprAnimation(std::string IN_strFileName, int IN_iWidth, int IN_iHeight, int IN_iFrames)
 {
 	Vector<SpriteFrame*> animFrames;
 
@@ -44,7 +47,7 @@ bool GameObject::AddSprAnimation(std::string IN_strFileName, int IN_iWidth, int 
 	return true;
 }
 
-bool GameObject::MoveTo(float IN_fDestX, float IN_fDestY, float IN_fDuration, SEL_CallFuncN IN_Function)
+bool GameBaseObject::MoveTo(float IN_fDestX, float IN_fDestY, float IN_fDuration, SEL_CallFuncN IN_Function)
 {
 	CCFiniteTimeAction* actionMove = CCMoveTo::create((float)IN_fDuration, ccp(IN_fDestX, IN_fDestY));
 	CCFiniteTimeAction* actionMoveDone = CCCallFuncN::create(this, IN_Function);
@@ -53,7 +56,7 @@ bool GameObject::MoveTo(float IN_fDestX, float IN_fDestY, float IN_fDuration, SE
 	return true;
 }
 
-void GameObject::update(float dt)
+void GameBaseObject::update(float dt)
 {
 	//이동
 	if ( m_bAutoMove == true )
@@ -64,17 +67,43 @@ void GameObject::update(float dt)
 		this->setPositionY(this->getPositionY() + (fdirY * 1000 * dt));
 	}
 
-	//물체가 외곽을 벗어나면 지운다
-	if (m_bBoundaryCheck == true)
+	cocos2d::Size size = this->getContentSize();
+
+	auto BoundaryCheck = [&] ()
 	{
-		cocos2d::Size size = this->getContentSize();
-		if (this->getPositionX() + (size.width / 2.0f) < 0 || this->getPositionX() - (size.width / 2.0f) > GAME_WIDTH
-			|| this->getPositionY() + (size.height / 2.0f) < 0 || this->getPositionY() - (size.height / 2.0f) > GAME_HEIGHT)
+		if (m_bBoundaryCheck == true)
 		{
-			this->removeFromParent();
+			if (this->getPositionX() + (size.width / 2.0f) < 0 || this->getPositionX() - (size.width / 2.0f) > GAME_WIDTH
+				|| this->getPositionY() + (size.height / 2.0f) < 0 || this->getPositionY() - (size.height / 2.0f) > GAME_HEIGHT)
+			{
+				this->removeFromParent();
+			}
+		}
+	};
+
+	//인사이드 & 바운더리 체크
+	if (m_bInsideCheck == true)
+	{
+		if (m_bInsideOK == false)
+		{
+			if (this->getPositionX() + (size.width / 2.f) >= 0)
+				if (this->getPositionX() - (size.width / 2.f) <= GAME_WIDTH)
+					if (this->getPositionY() + (size.height / 2.f) >= 0)
+						if (this->getPositionY() - (size.height / 2.f) <= GAME_HEIGHT)
+						{
+							m_bInsideOK = true;
+						}
+		}
+		else
+		{
+			BoundaryCheck();
 		}
 	}
-	
+	else
+	{
+		BoundaryCheck();
+	}
+
 	//자동회전 (기능 불완전. 윈도우에서는 잘 되는데 안드로이드에서는 튕김)
 	if (m_bAutoRotation == true)
 	{

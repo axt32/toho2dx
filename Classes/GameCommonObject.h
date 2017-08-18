@@ -1,12 +1,12 @@
 #pragma once
-#include "GameObject.h"
+#include "GameBaseObject.h"
 #include "GameCustomFunction.h"
 
-class GameEnemyBullet : public GameObject
+class GameCommonObject : public GameBaseObject
 {
 public:
-	GameEnemyBullet();
-	virtual ~GameEnemyBullet();
+	GameCommonObject();
+	virtual ~GameCommonObject();
 
 	GameCustomFunction * pCustomFunction;
 

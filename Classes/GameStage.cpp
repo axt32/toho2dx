@@ -1,8 +1,9 @@
 #include "GameStage.h"
 #include "SimpleAudioEngine.h"
 #include "GameUtil.h"
+#include "GamePlayerShot.h"
 #include "GameEnemy.h"
-#include "GameBullet.h"
+#include "GameEnemyShot.h"
 #include "GameEnemyFunctions.h"
 
 USING_NS_CC;
@@ -117,20 +118,6 @@ void GameStage::MovePlayer(float IN_fDestX, float IN_fDestY)
 //	m_Player.m_layerPlayer->runAction(CCSequence::create(actionMove, actionMoveDone, NULL));
 }
 
-void GameStage::FireBullet()
-{
-	//캐릭터별로, 방향별로 발사 메소드를 다르게 해야 한다.
-	//추후 플레이어 샷도 GamePlayerShot 클래스로 상속시켜야함.
-	GameObject * pBullet = new GameObject;	
-	pBullet->initWithFile("player/reimu/shot0.png");
-	Vec2 pos = m_Player.GetPosition();
-	pBullet->setPosition(Point(pos.x, pos.y));
-	pBullet->SetSpeedAngle(3.0f, 90.0f);
-	pBullet->setRotation(90.0f);
-	pBullet->autorelease();
-	layerEnemyBullet->addChild(pBullet);
-}
-
 void GameStage::PlayerFireBullet() {
 
 	//CCLOG("goCall %s", (char*)d);
@@ -140,13 +127,12 @@ void GameStage::PlayerFireBullet() {
 	{
 		auto MakeReimuShot = [&] (float IN_fY)
 		{
-			GameObject * pBullet = new GameObject;
+			GamePlayerShot * pBullet = new GamePlayerShot;
 			pBullet->initWithFile("player/reimu/shot0.png");
 			Vec2 pos = m_Player.GetPosition();
 			pBullet->setPosition(Point(pos.x, pos.y + IN_fY));
 			pBullet->SetSpeedAngle(2.0f, 90.0f);
 			pBullet->setRotation(90.0f);
-			pBullet->m_bBoundaryCheck = true;
 			pBullet->autorelease();
 			layerEnemyBullet->addChild(pBullet);
 		};
@@ -161,7 +147,7 @@ void GameStage::PlayerFireBullet() {
 
 		auto MakeMarisaShot = [&] (float IN_fY, float IN_fAngle)
 		{
-			GameObject * pBullet = new GameObject;
+			GamePlayerShot * pBullet = new GamePlayerShot;
 			pBullet->initWithSpriteFrame(SpriteFrame::create("player/marisa/shot0.png", Rect(RandomHelper::random_int(0, 7) * 30, 0, 30, 28)));
 			Vec2 pos = m_Player.GetPosition();
 			pBullet->setPosition(Point(pos.x, pos.y + IN_fY));
@@ -169,7 +155,6 @@ void GameStage::PlayerFireBullet() {
 			pBullet->SetSpeedAngle(2.0f, fShotAngle);
 			pBullet->setRotation(fShotAngle);		//
 			//pBullet->SetAutoRotation();
-			pBullet->m_bBoundaryCheck = true;
 			pBullet->autorelease();
 			layerEnemyBullet->addChild(pBullet);
 		};
