@@ -5,6 +5,7 @@
 #include "GameEnemy.h"
 #include "GameEnemyShot.h"
 #include "GameEnemyFunctions.h"
+#include "Common.h"
 
 USING_NS_CC;
 
@@ -78,7 +79,7 @@ bool GameStage::init()
 
 	//플레이어 총알 자동 발사 액션
 	CallFunc * action_0 = CallFunc::create(CC_CALLBACK_0(GameStage::PlayerFireBullet, this));
-	CCDelayTime * action_1 = CCDelayTime::create(0.1f);
+	CCDelayTime * action_1 = CCDelayTime::create(0.25f);
 	Sequence * action_playerfirebullet = Sequence::create(action_0, action_1, NULL);
 	CCRepeatForever * action_repeat = CCRepeatForever::create(action_playerfirebullet);
 	m_Player.m_layerPlayer->runAction(action_repeat);
@@ -121,15 +122,15 @@ void GameStage::PlayerFireBullet() {
 			pBullet->initWithFile("player/reimu/shot0.png");
 			Vec2 pos = m_Player.GetPosition();
 			pBullet->setPosition(Point(pos.x, pos.y + IN_fY));
-			pBullet->SetSpeedAngle(2.0f, 90.0f);
+			pBullet->SetSpeedAngle(10.0f, 90.0f);
 			pBullet->setRotation(90.0f);
 			pBullet->autorelease();
 			layerEnemyBullet->addChild(pBullet);
 		};
 
-		MakeReimuShot(20.0f);
+		MakeReimuShot(22.0f);
 		MakeReimuShot(0.f);
-		MakeReimuShot(-20.0f);
+		MakeReimuShot(-22.0f);
 
 	}
 	else if (m_Player.m_iCurrentPlayer == CHARATYPE_MARISA)
@@ -138,11 +139,11 @@ void GameStage::PlayerFireBullet() {
 		auto MakeMarisaShot = [&] (float IN_fY, float IN_fAngle)
 		{
 			GamePlayerShot * pBullet = new GamePlayerShot;
-			pBullet->initWithSpriteFrame(SpriteFrame::create("player/marisa/shot0.png", Rect(RandomHelper::random_int(0, 7) * 30, 0, 30, 28)));
+			pBullet->initWithSpriteFrame(SpriteFrame::create("player/marisa/shot0.png", Rect(RandomHelper::random_int(0, 7) * 30, 0, MARISA_SHOT_WIDTH, MARISA_SHOT_HEIGHT)));
 			Vec2 pos = m_Player.GetPosition();
 			pBullet->setPosition(Point(pos.x, pos.y + IN_fY));
 			float fShotAngle = 90.f + IN_fAngle;
-			pBullet->SetSpeedAngle(2.0f, fShotAngle);
+			pBullet->SetSpeedAngle(10.0f, fShotAngle);
 			pBullet->setRotation(fShotAngle);		//
 			//pBullet->SetAutoRotation();
 			pBullet->autorelease();
@@ -160,21 +161,56 @@ void GameStage::PlayerFireBullet() {
 
 void GameStage::MakeEnemy()
 {
-	//테스트용 (테스트 에너미 생성)
-	GameEnemy * pEnemyTest = new GameEnemy;
-	pEnemyTest->initWithFile("enemies/type1.png");
-	pEnemyTest->AddSprAnimation("enemies/type1.png", ENEMY_TYPE1_WIDTH, ENEMY_TYPE1_HEIGHT, ENEMY_TYPE1_FRAMES);
-	pEnemyTest->setPosition(Point(100.f, 100.f));
-	pEnemyTest->autorelease();
+	//에너미 생성
+	GameEnemy * pEnemy = new GameEnemy;
+	pEnemy->initWithFile("enemies/type1.png");
+	pEnemy->AddSprAnimation("enemies/type1.png", ENEMY_TYPE1_WIDTH, ENEMY_TYPE1_HEIGHT, ENEMY_TYPE1_FRAMES);
+	pEnemy->setPosition(Point(100.f, 100.f));
+	pEnemy->autorelease();
 
 	//에너미 함수 연결
-	pEnemyTest->m_pCustomFunction = new EnemyFunctions::Stage1_Pattern1;
-	pEnemyTest->m_pCustomFunction->m_pObject = pEnemyTest;
-	((EnemyFunctions::Stage1_Pattern1 *)(pEnemyTest->m_pCustomFunction))->m_iMinimumDuration = 15;
-	((EnemyFunctions::Stage1_Pattern1 *)(pEnemyTest->m_pCustomFunction))->m_iMaximumDuration = 40;
-	pEnemyTest->InvokeInit();
-	layerEnemyBullet->addChild(pEnemyTest);
+	pEnemy->m_pCustomFunction = new EnemyFunctions::Stage1_EnemyPattern1;
+	pEnemy->m_pCustomFunction->m_pObject = pEnemy;
+	((EnemyFunctions::Stage1_EnemyPattern1 *)(pEnemy->m_pCustomFunction))->m_iMinimumDuration = 40;
+	((EnemyFunctions::Stage1_EnemyPattern1 *)(pEnemy->m_pCustomFunction))->m_iMaximumDuration = 60;
+	((EnemyFunctions::Stage1_EnemyPattern1 *)(pEnemy->m_pCustomFunction))->m_iBulletQuantity = 3;
+	((EnemyFunctions::Stage1_EnemyPattern1 *)(pEnemy->m_pCustomFunction))->m_iBulletStyle = 1;
+	((EnemyFunctions::Stage1_EnemyPattern1 *)(pEnemy->m_pCustomFunction))->m_iBulletSubStyle = RandomHelper::random_int(1, BULLET_TYPE1_STYLES) - 1;
+	((EnemyFunctions::Stage1_EnemyPattern1 *)(pEnemy->m_pCustomFunction))->m_iShotBulletDestFrame = 60;
+	pEnemy->InvokeInit();
+	layerEnemyBullet->addChild(pEnemy);
 
+}
+
+//AddAngle, AddSpeed는 인터페이스만 만들었고 기능구현은 아직 하지 않았다.
+void GameStage::MakeEnemyShot(int IN_iBulletType, int IN_iBulletSubStyle, float IN_fX, float IN_fY, float IN_fAngle, float IN_fAddAngle, float IN_fSpeed, float IN_fAddSpeed, GameCustomFunction * IN_pBarrageFunction)
+{
+	//총알 생성
+	GameEnemyShot * pBullet = new GameEnemyShot;
+
+	switch (IN_iBulletType)
+	{
+	case 1:
+		pBullet->initWithFile("bullets/type1.png", Rect(IN_iBulletSubStyle * BULLET_TYPE1_WIDTH, 0, BULLET_TYPE1_WIDTH, BULLET_TYPE1_HEIGHT));
+		break;
+	default:
+		break;
+	}
+
+	pBullet->setPosition(Point(IN_fX, IN_fY));
+	pBullet->SetSpeedAngle(IN_fSpeed, IN_fAngle);
+	//pBullet->setRotation(IN_fAngle);
+	pBullet->autorelease();
+
+	//탄막 함수 연결
+	if (IN_pBarrageFunction != nullptr)
+	{
+		pBullet->m_pCustomFunction = IN_pBarrageFunction;
+		pBullet->m_pCustomFunction->m_pObject = pBullet;
+		pBullet->InvokeInit();
+	}
+
+	layerEnemyBullet->addChild(pBullet);
 }
 
 bool GameStage::onTouchBegan(Touch * touch, Event * event)
@@ -212,7 +248,7 @@ void GameStage::onTouchEnded(Touch * touch, Event * event)
 
 void GameStage::update(float dt)
 {
-	if ( ++m_iCurrentFrame % 40 == 0)
+	if ( ++m_iCurrentFrame % 60 == 0)
 	{
 		for (int i = 0; i < 3; i++)
 		MakeEnemy();

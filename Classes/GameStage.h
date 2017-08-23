@@ -2,6 +2,7 @@
 
 #include "cocos2d.h"
 #include "GamePlayer.h"
+#include "GameCustomFunction.h"
 
 class GameStage : public cocos2d::Scene		//원래는 Scene 였음
 {
@@ -29,6 +30,7 @@ public:
 	void PlayerFireBullet();
 
 	void MakeEnemy();
+	void MakeEnemyShot(int IN_iBulletType, int IN_iBulletSubStyle, float IN_fX, float IN_fY, float IN_fAngle, float IN_fAddAngle, float IN_fSpeed, float IN_fAddSpeed, GameCustomFunction * IN_pBarrageFunction = nullptr);
 
 	bool onTouchBegan(cocos2d::Touch * touch, cocos2d::Event * event);
 	void onTouchMoved(cocos2d::Touch * touch, cocos2d::Event * event);

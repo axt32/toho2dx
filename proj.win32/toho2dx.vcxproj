@@ -148,9 +148,11 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\Common.cpp" />
+    <ClCompile Include="..\Classes\GameBarrageFunctions.cpp" />
     <ClCompile Include="..\Classes\GameEnemyFunctions.cpp" />
     <ClCompile Include="..\Classes\GameEnemyShot.cpp" />
-    <ClCompile Include="..\Classes\GameCustomFuction.cpp" />
+    <ClCompile Include="..\Classes\GameCustomFunction.cpp" />
     <ClCompile Include="..\Classes\GameEnemy.cpp" />
     <ClCompile Include="..\Classes\GameCommonObject.cpp" />
     <ClCompile Include="..\Classes\GameBaseObject.cpp" />
@@ -163,6 +165,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\Common.h" />
+    <ClInclude Include="..\Classes\GameBarrageFunctions.h" />
     <ClInclude Include="..\Classes\GameEnemyFunctions.h" />
     <ClInclude Include="..\Classes\GameEnemyShot.h" />
     <ClInclude Include="..\Classes\GameCustomFunction.h" />

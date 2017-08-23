@@ -7,9 +7,6 @@ enum CHARATYPE
 	CHARATYPE_MARISA
 };
 
-#define PLAYERSIZE_RADIUS 75		//≥À≥À«œ∞‘ ¿‚¿Ω.
-#define HEATBOX_RADIUS 5
-
 class GamePlayer
 {
 private:

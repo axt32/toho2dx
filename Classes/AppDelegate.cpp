@@ -64,11 +64,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 	register_all_packages();
 
-	Scene *pScene = GameStage::create();
-	director->runWithScene(pScene);
+	g_pGameStage = GameStage::create();
+	director->runWithScene(g_pGameStage);
 	CCLOG("Scene Changes");
 
-  
     return true;
 }
 

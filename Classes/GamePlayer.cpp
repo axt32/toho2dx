@@ -1,13 +1,6 @@
 #include "GamePlayer.h"
 #include "GameBaseObject.h"
-
-#define REIMU_WIDTH 94
-#define REIMU_HEIGHT 102
-#define REIMU_FRAMES 11
-
-#define MARISA_WIDTH 55
-#define MARISA_HEIGHT 100
-#define MARISA_FRAMES 10
+#include "Common.h"
 
 GamePlayer::GamePlayer()
 {

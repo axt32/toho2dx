@@ -17,15 +17,24 @@ namespace EnemyFunctions
 		void Run();
 	};
 
-	class Stage1_Pattern1 : public GameCustomFunction
+	class Stage1_EnemyPattern1 : public GameCustomFunction
 	{
+	private:
+		int m_iShotBulletCurrentFrame;
+
 	public:
-		Stage1_Pattern1();
-		~Stage1_Pattern1();
+		Stage1_EnemyPattern1();
+		~Stage1_EnemyPattern1();
 
 		int m_iMinimumDuration;
 		int m_iMaximumDuration;
 		//int m_iBulletType;
+
+		int m_iBulletStyle;
+		int m_iBulletSubStyle;
+		int m_iBulletQuantity;
+
+		int m_iShotBulletDestFrame;		//ภฮลอน๚
 
 		virtual void InitCustomFunction();
 		virtual void Run();

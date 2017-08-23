@@ -23,7 +23,7 @@ public:
 
 	float m_fCollisionRadius;		//충돌체크 판정 범위
 
-	void SetSpeedAngle(float IN_fSpeed, float IN_fAngle);
+	void SetSpeedAngle(float IN_fSpeed, float IN_fAngle);		//AngleSpeed로 할지, SpeedAngle로 할지 어느 한쪽으로 통일시켜야됨.
 	void SetAutoRotation(bool IN_bAutoRotation = true, float IN_fAutoRotationAngle = 1.0f);
 	
 	bool AddSprAnimation(std::string IN_strFileName, int IN_iWidth, int IN_iHeight, int IN_iFrames);

@@ -30,9 +30,6 @@
     <ClCompile Include="..\Classes\GameEnemy.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GameCustomFuction.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\GameEnemyFunctions.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -46,6 +43,15 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GameEnemyShot.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameCustomFunction.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameBarrageFunctions.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Common.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -87,6 +93,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GameEnemyShot.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameBarrageFunctions.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

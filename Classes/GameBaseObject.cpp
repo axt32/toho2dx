@@ -63,8 +63,8 @@ void GameBaseObject::update(float dt)
 	{
 		float fdirX = sinf(CC_DEGREES_TO_RADIANS(m_fAngle));
 		float fdirY = cosf(CC_DEGREES_TO_RADIANS(m_fAngle));
-		this->setPositionX(this->getPositionX() + (fdirX * 1000 * dt));
-		this->setPositionY(this->getPositionY() + (fdirY * 1000 * dt));
+		this->setPositionX(this->getPositionX() + (fdirX * m_fSpeed));		//dt를 곱해야될것같은 부분인데, 일단 패스
+		this->setPositionY(this->getPositionY() + (fdirY * m_fSpeed));
 	}
 
 	cocos2d::Size size = this->getContentSize();
