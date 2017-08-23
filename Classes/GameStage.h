@@ -9,6 +9,8 @@ class GameStage : public cocos2d::Scene		//원래는 Scene 였음
 public:
 	GamePlayer m_Player;
 
+	int m_iCurrentFrame;
+
 public:
 	cocos2d::Sprite * m_sprBackground;
 	cocos2d::Point touchPoint;
@@ -25,6 +27,8 @@ public:
 
 	void MovePlayer(float IN_fDestX, float IN_fDestY);
 	void PlayerFireBullet();
+
+	void MakeEnemy();
 
 	bool onTouchBegan(cocos2d::Touch * touch, cocos2d::Event * event);
 	void onTouchMoved(cocos2d::Touch * touch, cocos2d::Event * event);

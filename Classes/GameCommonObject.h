@@ -8,7 +8,7 @@ public:
 	GameCommonObject();
 	virtual ~GameCommonObject();
 
-	GameCustomFunction * pCustomFunction;
+	GameCustomFunction * m_pCustomFunction;
 
 	void InvokeInit();
 	virtual void update(float dt);

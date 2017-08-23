@@ -13,8 +13,14 @@ LOCAL_MODULE_FILENAME := libMyGame
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../../Classes/AppDelegate.cpp \
-				   ../../../Classes/GameObject.cpp \
+				   ../../../Classes/GameBaseObject.cpp \
+				   ../../../Classes/GameCommonObject.cpp \
+				   ../../../Classes/GameCustomFunction.cpp \
+				   ../../../Classes/GameEnemy.cpp \
+				   ../../../Classes/GameEnemyFunctions.cpp \
+				   ../../../Classes/GameEnemyShot.cpp \
 				   ../../../Classes/GamePlayer.cpp \
+				   ../../../Classes/GamePlayerShot.cpp \
                    ../../../Classes/GameStage.cpp \
 				   ../../../Classes/GameUtil.cpp
 

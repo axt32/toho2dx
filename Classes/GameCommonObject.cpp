@@ -2,29 +2,29 @@
 
 GameCommonObject::GameCommonObject()
 {
-	pCustomFunction = nullptr;
+	m_pCustomFunction = nullptr;
 }
 
 GameCommonObject::~GameCommonObject()
 {
-	if (pCustomFunction != nullptr)
+	if (m_pCustomFunction != nullptr)
 	{
-		delete pCustomFunction;
+		delete m_pCustomFunction;
 	}
 }
 
 void GameCommonObject::InvokeInit()
 {
 	//Custom Function 호출
-	pCustomFunction->InitCustomFunction();
+	m_pCustomFunction->InitCustomFunction();
 }
 
 void GameCommonObject::update(float dt)
 {
 	//Custom Function 호출
-	if ( pCustomFunction != nullptr)
+	if ( m_pCustomFunction != nullptr)
 	{ 
-		pCustomFunction->Run();
+		m_pCustomFunction->Run();
 	}
 
 

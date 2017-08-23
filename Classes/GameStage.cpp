@@ -83,24 +83,14 @@ bool GameStage::init()
 	CCRepeatForever * action_repeat = CCRepeatForever::create(action_playerfirebullet);
 	m_Player.m_layerPlayer->runAction(action_repeat);
 
-	//총알 레이어 (autorelease 하면 프로그램이 꼬임)
+	//적군, 총알 레이어 (autorelease 하면 프로그램이 꼬임)
 	layerEnemyBullet = Layer::create();
 	layerEnemyBullet->setAnchorPoint(ccp(0, 0));
 	layerEnemyBullet->setPosition(ccp(0, 0));
 	this->addChild(layerEnemyBullet);
 
-	//테스트용 (테스트 에너미 생성)
-	GameEnemy * pEnemyTest = new GameEnemy;
-	pEnemyTest->initWithFile("enemies/type1.png");
-	pEnemyTest->AddSprAnimation("enemies/type1.png", ENEMY_TYPE1_WIDTH, ENEMY_TYPE1_HEIGHT, ENEMY_TYPE1_FRAMES);
-	pEnemyTest->setPosition(Point(100.f, 100.f));
-	pEnemyTest->autorelease();
-	
-	//에너미 함수 연결
-	pEnemyTest->pCustomFunction = new EnemyFunctions::EnemyFunction_Test;
-	pEnemyTest->InvokeInit();
-	layerEnemyBullet->addChild(pEnemyTest);
-
+	//변수 초기화
+	m_iCurrentFrame = 0;
 
 	//스테이지의 스케줄 업데이터
 	this->scheduleUpdate();
@@ -168,6 +158,25 @@ void GameStage::PlayerFireBullet() {
 
 }
 
+void GameStage::MakeEnemy()
+{
+	//테스트용 (테스트 에너미 생성)
+	GameEnemy * pEnemyTest = new GameEnemy;
+	pEnemyTest->initWithFile("enemies/type1.png");
+	pEnemyTest->AddSprAnimation("enemies/type1.png", ENEMY_TYPE1_WIDTH, ENEMY_TYPE1_HEIGHT, ENEMY_TYPE1_FRAMES);
+	pEnemyTest->setPosition(Point(100.f, 100.f));
+	pEnemyTest->autorelease();
+
+	//에너미 함수 연결
+	pEnemyTest->m_pCustomFunction = new EnemyFunctions::Stage1_Pattern1;
+	pEnemyTest->m_pCustomFunction->m_pObject = pEnemyTest;
+	((EnemyFunctions::Stage1_Pattern1 *)(pEnemyTest->m_pCustomFunction))->m_iMinimumDuration = 15;
+	((EnemyFunctions::Stage1_Pattern1 *)(pEnemyTest->m_pCustomFunction))->m_iMaximumDuration = 40;
+	pEnemyTest->InvokeInit();
+	layerEnemyBullet->addChild(pEnemyTest);
+
+}
+
 bool GameStage::onTouchBegan(Touch * touch, Event * event)
 {
 	//다중터치 고려안됨?
@@ -203,7 +212,11 @@ void GameStage::onTouchEnded(Touch * touch, Event * event)
 
 void GameStage::update(float dt)
 {
-	
+	if ( ++m_iCurrentFrame % 40 == 0)
+	{
+		for (int i = 0; i < 3; i++)
+		MakeEnemy();
+	}
 }
 
 void GameStage::menuCloseCallback(Ref* pSender)
