@@ -8,5 +8,5 @@ GameEnemy::GameEnemy()
 
 GameEnemy::~GameEnemy()
 {
-	CCLOG("Game Enemy Deleted");
+
 }

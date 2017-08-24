@@ -143,7 +143,7 @@ void GameStage::PlayerFireBullet() {
 			Vec2 pos = m_Player.GetPosition();
 			pBullet->setPosition(Point(pos.x, pos.y + IN_fY));
 			float fShotAngle = 90.f + IN_fAngle;
-			pBullet->SetSpeedAngle(10.0f, fShotAngle);
+			pBullet->SetSpeedAngle(10.f, fShotAngle);
 			pBullet->setRotation(fShotAngle);		//
 			//pBullet->SetAutoRotation();
 			pBullet->autorelease();
@@ -183,7 +183,7 @@ void GameStage::MakeEnemy()
 }
 
 //AddAngle, AddSpeed는 인터페이스만 만들었고 기능구현은 아직 하지 않았다.
-void GameStage::MakeEnemyShot(int IN_iBulletType, int IN_iBulletSubStyle, float IN_fX, float IN_fY, float IN_fAngle, float IN_fAddAngle, float IN_fSpeed, float IN_fAddSpeed, GameCustomFunction * IN_pBarrageFunction)
+void GameStage::MakeEnemyShot(int IN_iBulletType, int IN_iBulletSubStyle, float IN_fX, float IN_fY, float IN_fSpeed, float IN_fAddSpeed, float IN_fAngle, float IN_fAddAngle, GameCustomFunction * IN_pBarrageFunction)
 {
 	//총알 생성
 	GameEnemyShot * pBullet = new GameEnemyShot;

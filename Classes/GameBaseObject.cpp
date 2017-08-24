@@ -18,6 +18,11 @@ GameBaseObject::~GameBaseObject()
 
 }
 
+bool GameBaseObject::GetInsideStatus()
+{
+	return m_bInsideOK;
+}
+
 void GameBaseObject::SetSpeedAngle(float IN_fSpeed, float IN_fAngle)
 {
 	m_fSpeed = IN_fSpeed;

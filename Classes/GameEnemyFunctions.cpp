@@ -59,16 +59,20 @@ void Stage1_EnemyPattern1::InitCustomFunction()
 	m_pObject->setPosition(startpoint);
 	m_pObject->runAction(Sequence::create(bezierTo, RemoveSelf::create(), NULL));		//베지어가 끝나면 자동으로 지워주는듯?
 
+	m_iShotBulletCurrentFrame = RandomHelper::random_int(0, m_iShotBulletDestFrame - 1);
 }
 void Stage1_EnemyPattern1::Run()
 {
-	if (++m_iShotBulletCurrentFrame == m_iShotBulletDestFrame)
+	if (m_pObject->GetInsideStatus() == true)
 	{
-		for (int i = 0; i < m_iBulletQuantity; i++)
+		if (++m_iShotBulletCurrentFrame == m_iShotBulletDestFrame)
 		{
-			g_pGameStage->MakeEnemyShot(m_iBulletStyle, m_iBulletSubStyle, m_pObject->getPositionX(), m_pObject->getPositionY(), (float)RandomHelper::random_int(0, 360), 0.f, (float)RandomHelper::random_int(15, 23) / 10.f, 0.f);
-		}
+			for (int i = 0; i < m_iBulletQuantity; i++)
+			{
+				g_pGameStage->MakeEnemyShot(m_iBulletStyle, m_iBulletSubStyle, m_pObject->getPositionX(), m_pObject->getPositionY(), (float)RandomHelper::random_int(15, 23) / 10.f, 0.f, (float)RandomHelper::random_int(0, 360), 0.f);
+			}
 
-		m_iShotBulletCurrentFrame = 0;
+			m_iShotBulletCurrentFrame = 0;
+		}
 	}
 }

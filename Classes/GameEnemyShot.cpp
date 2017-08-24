@@ -8,5 +8,5 @@ GameEnemyShot::GameEnemyShot()
 
 GameEnemyShot::~GameEnemyShot()
 {
-	CCLOG("Game Enemy Shot Deleted");
+
 }
