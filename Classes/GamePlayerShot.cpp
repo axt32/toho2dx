@@ -7,5 +7,5 @@ GamePlayerShot::GamePlayerShot()
 }
 GamePlayerShot :: ~GamePlayerShot()
 {
-	
+
 }
