@@ -9,6 +9,7 @@
 #include "Common.h"
 
 USING_NS_CC;
+using namespace CocosDenshion;
 
 Scene* GameStage::createScene()
 {
@@ -113,6 +114,11 @@ bool GameStage::init()
 	//스테이지의 스케줄 업데이터
 	this->scheduleUpdate();
 
+	//음악 재생
+	SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(1.f);
+	SimpleAudioEngine::getInstance()->setEffectsVolume(0.35f);
+	SimpleAudioEngine::getInstance()->playBackgroundMusic("bgm/stage1.mp3", true);
+
 	return true;
 }
 
@@ -178,6 +184,8 @@ void GameStage::PlayerFireBullet() {
 
 	}
 
+	SimpleAudioEngine::getInstance()->playEffect("se/playershot.wav", false);
+
 }
 
 void GameStage::MakeEnemy()
@@ -235,6 +243,8 @@ void GameStage::MakeEnemyShot(int IN_iBulletType, int IN_iBulletSubStyle, float 
 	}
 
 	m_pLayerEnemyShot->addChild(pBullet);
+
+	SimpleAudioEngine::getInstance()->playEffect("se/enemyshot.wav", false);
 }
 
 void GameStage::MakeExplosion(float IN_fX, float IN_fY, bool IN_bSmallExplosion)

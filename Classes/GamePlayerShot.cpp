@@ -2,6 +2,10 @@
 #include "Common.h"
 #include "GameEnemy.h"
 #include "GameUtil.h"
+#include "cocos2d.h"
+#include "SimpleAudioEngine.h"
+
+using namespace CocosDenshion;
 
 GamePlayerShot::GamePlayerShot()
 {
@@ -32,6 +36,11 @@ void GamePlayerShot::update(float dt)
 			{
 				g_pGameStage->MakeExplosion(pObj->getPositionX(), pObj->getPositionY(), false);
 				pObj->removeFromParent();
+				SimpleAudioEngine::getInstance()->playEffect("se/enemydead.wav", false);
+			}
+			else
+			{
+				SimpleAudioEngine::getInstance()->playEffect("se/enemydamaged.wav", false);
 			}
 
 			this->removeFromParent();
