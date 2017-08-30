@@ -1,11 +1,11 @@
 #pragma once
 #include "GameCommonObject.h"
 
-class GameEnemyShot : public GameCommonObject
+class GameExplosion : public GameCommonObject
 {
 public:
-	GameEnemyShot();
-	~GameEnemyShot();
+	GameExplosion();
+	~GameExplosion();
 
 	virtual void update(float dt);
 };

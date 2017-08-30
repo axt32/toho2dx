@@ -52,7 +52,8 @@ void Stage1_EnemyPattern1::InitCustomFunction()
 	Vec2 endpoint = Vec2(fDestX, fDestY);
 
 	bezierConfig.controlPoint_1 = Vec2(fDestX, fDestY + float(RandomHelper::random_int(0, int(abs(fDestY - y)))));
-	bezierConfig.controlPoint_2 = Vec2(fDestX + float(RandomHelper::random_int(0, int(abs(fDestX - x)))), fDestY);
+//	bezierConfig.controlPoint_2 = Vec2(fDestX + float(RandomHelper::random_int(0, int(abs(fDestX - x)))), fDestY);
+	bezierConfig.controlPoint_2 = Vec2(800, fDestY);
 	bezierConfig.endPosition = endpoint;
 
 	BezierTo * bezierTo = BezierTo::create(float(RandomHelper::random_int(m_iMinimumDuration, m_iMaximumDuration)) / 10.f, bezierConfig);

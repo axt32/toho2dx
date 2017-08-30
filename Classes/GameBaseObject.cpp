@@ -10,6 +10,8 @@ GameBaseObject::GameBaseObject()
 	m_bInsideCheck = false;
 	m_bBoundaryCheck = false;
 	m_fAutoRotationAngle = 1.0f;
+	m_fCollisionRadius = 1.f;
+
 	this->schedule(schedule_selector(GameBaseObject::update));
 }
 
@@ -36,7 +38,7 @@ void GameBaseObject::SetAutoRotation(bool IN_bAutoRotation, float IN_fAutoRotati
 	m_bAutoRotation = IN_bAutoRotation;
 }
 
-bool GameBaseObject::AddSprAnimation(std::string IN_strFileName, int IN_iWidth, int IN_iHeight, int IN_iFrames)
+bool GameBaseObject::AddSprAnimation(std::string IN_strFileName, int IN_iWidth, int IN_iHeight, int IN_iFrames, bool IN_bAutoRemove)
 {
 	Vector<SpriteFrame*> animFrames;
 
@@ -45,9 +47,18 @@ bool GameBaseObject::AddSprAnimation(std::string IN_strFileName, int IN_iWidth, 
 		animFrames.pushBack(SpriteFrame::create(IN_strFileName, Rect(i * IN_iWidth, 0, IN_iWidth, IN_iHeight)));	//Rect¸¦ ¾²¸é ¿Þ¼Õ ÁÂÇ¥°è
 	}
 
-	auto animation = Animation::createWithSpriteFrames(animFrames, 0.05f);
-	auto animate = Animate::create(animation);
-	this->runAction(RepeatForever::create(animate));
+	if (IN_bAutoRemove == false)
+	{
+		auto animation = Animation::createWithSpriteFrames(animFrames, 0.05f);
+		auto animate = Animate::create(animation);
+		this->runAction(RepeatForever::create(animate));
+	}
+	else
+	{
+		auto animation = Animation::createWithSpriteFrames(animFrames, 0.05f);
+		auto animate = Animate::create(animation);
+		this->runAction(CCSequence::create(animate, RemoveSelf::create(), NULL));
+	}
 
 	return true;
 }

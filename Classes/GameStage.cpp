@@ -5,6 +5,7 @@
 #include "GameEnemy.h"
 #include "GameEnemyShot.h"
 #include "GameEnemyFunctions.h"
+#include "GameExplosion.h"
 #include "Common.h"
 
 USING_NS_CC;
@@ -84,11 +85,27 @@ bool GameStage::init()
 	CCRepeatForever * action_repeat = CCRepeatForever::create(action_playerfirebullet);
 	m_Player.m_layerPlayer->runAction(action_repeat);
 
-	//적군, 총알 레이어 (autorelease 하면 프로그램이 꼬임)
-	layerEnemyBullet = Layer::create();
-	layerEnemyBullet->setAnchorPoint(ccp(0, 0));
-	layerEnemyBullet->setPosition(ccp(0, 0));
-	this->addChild(layerEnemyBullet);
+	//레이어 (autorelease 하면 프로그램이 꼬임)
+	m_pLayerPlayerShot = Layer::create();
+	m_pLayerPlayerShot = Layer::create();
+	m_pLayerPlayerShot->setAnchorPoint(ccp(0, 0));
+	m_pLayerPlayerShot->setPosition(ccp(0, 0));
+	this->addChild(m_pLayerPlayerShot);
+
+	m_pLayerEnemy = Layer::create();
+	m_pLayerEnemy->setAnchorPoint(ccp(0, 0));
+	m_pLayerEnemy->setPosition(ccp(0, 0));
+	this->addChild(m_pLayerEnemy);
+
+	m_pLayerEnemyShot = Layer::create();
+	m_pLayerEnemyShot->setAnchorPoint(ccp(0, 0));
+	m_pLayerEnemyShot->setPosition(ccp(0, 0));
+	this->addChild(m_pLayerEnemyShot);
+
+	m_pLayerExplosion = Layer::create();
+	m_pLayerExplosion->setAnchorPoint(ccp(0, 0));
+	m_pLayerExplosion->setPosition(ccp(0, 0));
+	this->addChild(m_pLayerExplosion);
 
 	//변수 초기화
 	m_iCurrentFrame = 0;
@@ -124,8 +141,10 @@ void GameStage::PlayerFireBullet() {
 			pBullet->setPosition(Point(pos.x, pos.y + IN_fY));
 			pBullet->SetSpeedAngle(10.0f, 90.0f);
 			pBullet->setRotation(90.0f);
+			pBullet->m_fCollisionRadius = 8.f;
+			pBullet->m_iDamage = 3;
+			m_pLayerPlayerShot->addChild(pBullet);
 			pBullet->autorelease();
-			layerEnemyBullet->addChild(pBullet);
 		};
 
 		MakeReimuShot(22.0f);
@@ -136,7 +155,7 @@ void GameStage::PlayerFireBullet() {
 	else if (m_Player.m_iCurrentPlayer == CHARATYPE_MARISA)
 	{
 
-		auto MakeMarisaShot = [&] (float IN_fY, float IN_fAngle)
+		auto MakeMarisaShot = [&](float IN_fY, float IN_fAngle)
 		{
 			GamePlayerShot * pBullet = new GamePlayerShot;
 			pBullet->initWithSpriteFrame(SpriteFrame::create("player/marisa/shot0.png", Rect(RandomHelper::random_int(0, 7) * 30, 0, MARISA_SHOT_WIDTH, MARISA_SHOT_HEIGHT)));
@@ -146,8 +165,10 @@ void GameStage::PlayerFireBullet() {
 			pBullet->SetSpeedAngle(10.f, fShotAngle);
 			pBullet->setRotation(fShotAngle);		//
 			//pBullet->SetAutoRotation();
+			pBullet->m_fCollisionRadius = 14.f;
+			pBullet->m_iDamage = 3;
+			m_pLayerPlayerShot->addChild(pBullet);
 			pBullet->autorelease();
-			layerEnemyBullet->addChild(pBullet);
 		};
 
 
@@ -166,6 +187,8 @@ void GameStage::MakeEnemy()
 	pEnemy->initWithFile("enemies/type1.png");
 	pEnemy->AddSprAnimation("enemies/type1.png", ENEMY_TYPE1_WIDTH, ENEMY_TYPE1_HEIGHT, ENEMY_TYPE1_FRAMES);
 	pEnemy->setPosition(Point(100.f, 100.f));
+	pEnemy->m_fCollisionRadius = 15.f;
+	pEnemy->m_iHP = 9;
 	pEnemy->autorelease();
 
 	//에너미 함수 연결
@@ -178,7 +201,7 @@ void GameStage::MakeEnemy()
 	((EnemyFunctions::Stage1_EnemyPattern1 *)(pEnemy->m_pCustomFunction))->m_iBulletSubStyle = RandomHelper::random_int(1, BULLET_TYPE1_STYLES) - 1;
 	((EnemyFunctions::Stage1_EnemyPattern1 *)(pEnemy->m_pCustomFunction))->m_iShotBulletDestFrame = 60;
 	pEnemy->InvokeInit();
-	layerEnemyBullet->addChild(pEnemy);
+	m_pLayerEnemy->addChild(pEnemy);
 
 }
 
@@ -192,6 +215,7 @@ void GameStage::MakeEnemyShot(int IN_iBulletType, int IN_iBulletSubStyle, float 
 	{
 	case 1:
 		pBullet->initWithFile("bullets/type1.png", Rect(IN_iBulletSubStyle * BULLET_TYPE1_WIDTH, 0, BULLET_TYPE1_WIDTH, BULLET_TYPE1_HEIGHT));
+		pBullet->m_fCollisionRadius = 3.f;
 		break;
 	default:
 		break;
@@ -210,7 +234,28 @@ void GameStage::MakeEnemyShot(int IN_iBulletType, int IN_iBulletSubStyle, float 
 		pBullet->InvokeInit();
 	}
 
-	layerEnemyBullet->addChild(pBullet);
+	m_pLayerEnemyShot->addChild(pBullet);
+}
+
+void GameStage::MakeExplosion(float IN_fX, float IN_fY, bool IN_bSmallExplosion)
+{
+	//에너미 생성
+	GameExplosion * pExplosion = new GameExplosion;
+
+	if (IN_bSmallExplosion == true)
+	{
+		pExplosion->init();
+		pExplosion->AddSprAnimation("explosion/explosion_small.png", EXPLOSION_SMALL_WIDTH, EXPLOSION_SMALL_HEIGHT, EXPLOSION_SMALL_FRAMES, true);
+	}
+	else
+	{
+		pExplosion->init();
+		pExplosion->AddSprAnimation("explosion/explosion_big.png", EXPLOSION_BIG_WIDTH, EXPLOSION_BIG_HEIGHT, EXPLOSION_BIG_FRAMES, true);
+	}
+
+	pExplosion->setPosition(Point(IN_fX, IN_fY));
+	pExplosion->autorelease();
+	m_pLayerExplosion->addChild(pExplosion);
 }
 
 bool GameStage::onTouchBegan(Touch * touch, Event * event)

@@ -4,7 +4,7 @@
 
 GamePlayer::GamePlayer()
 {
-
+	m_fCollisionRadius = 1.f;
 }
 
 GamePlayer::~GamePlayer()
@@ -28,6 +28,8 @@ void GamePlayer::InitPlayer()
 	m_iLives = 3;
 	m_iCurrentPlayer = CHARATYPE_REIMU;
 	m_iAbilityEnergy = 100;
+
+	m_fCollisionRadius = 5;
 
 	m_bMoving = false;
 

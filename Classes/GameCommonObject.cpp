@@ -27,6 +27,5 @@ void GameCommonObject::update(float dt)
 		m_pCustomFunction->Run();
 	}
 
-
 	GameBaseObject::update(dt);		//MFC를 흉내내어 가상함수 호출을 아랫단에 넣었다.
 }

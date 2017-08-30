@@ -4,6 +4,7 @@
 #include "GamePlayer.h"
 #include "GameCustomFunction.h"
 
+class GamePlayerShot;
 class GameStage : public cocos2d::Scene		//원래는 Scene 였음
 {
 
@@ -16,7 +17,11 @@ public:
 	cocos2d::Sprite * m_sprBackground;
 	cocos2d::Point touchPoint;
 	float angleOffset;
-	cocos2d::Layer * layerEnemyBullet;
+
+	cocos2d::Layer * m_pLayerPlayerShot;
+	cocos2d::Layer * m_pLayerEnemy;
+	cocos2d::Layer * m_pLayerEnemyShot;
+	cocos2d::Layer * m_pLayerExplosion;
 
 	static cocos2d::Scene* createScene();
 
@@ -31,6 +36,8 @@ public:
 
 	void MakeEnemy();
 	void MakeEnemyShot(int IN_iBulletType, int IN_iBulletSubStyle, float IN_fX, float IN_fY, float IN_fSpeed, float IN_fAddSpeed, float IN_fAngle, float IN_fAddAngle, GameCustomFunction * IN_pBarrageFunction = nullptr);
+	
+	void MakeExplosion(float IN_fX, float IN_fY, bool IN_bSmallExplosion = false);
 
 	bool onTouchBegan(cocos2d::Touch * touch, cocos2d::Event * event);
 	void onTouchMoved(cocos2d::Touch * touch, cocos2d::Event * event);

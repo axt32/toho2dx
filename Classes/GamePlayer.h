@@ -33,4 +33,6 @@ public:
 	int m_iAbilityEnergy;
 	bool m_bMoving;
 
+	float m_fCollisionRadius;
+
 };

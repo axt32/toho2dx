@@ -28,7 +28,7 @@ public:
 	void SetSpeedAngle(float IN_fSpeed, float IN_fAngle);		//AngleSpeed∑Œ ≈Î¿œ
 	void SetAutoRotation(bool IN_bAutoRotation = true, float IN_fAutoRotationAngle = 1.0f);
 	
-	bool AddSprAnimation(std::string IN_strFileName, int IN_iWidth, int IN_iHeight, int IN_iFrames);
+	bool AddSprAnimation(std::string IN_strFileName, int IN_iWidth, int IN_iHeight, int IN_iFrames, bool IN_bAutoRemove = false);
 	bool MoveTo(float IN_fDestX, float IN_fDestY, float IN_fDuration, SEL_CallFuncN IN_Function);
 
 	virtual void update(float dt);

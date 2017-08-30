@@ -21,6 +21,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 				   ../../../Classes/GameEnemy.cpp \
 				   ../../../Classes/GameEnemyFunctions.cpp \
 				   ../../../Classes/GameEnemyShot.cpp \
+				   ../../../Classes/GameExplosion.cpp \
 				   ../../../Classes/GamePlayer.cpp \
 				   ../../../Classes/GamePlayerShot.cpp \
                    ../../../Classes/GameStage.cpp \
