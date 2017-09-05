@@ -1,23 +1,23 @@
-#include "GameStage.h"
+#include "SceneStage.h"
 #include "SimpleAudioEngine.h"
 #include "GameUtil.h"
-#include "GamePlayerShot.h"
-#include "GameEnemy.h"
-#include "GameEnemyShot.h"
-#include "GameEnemyFunctions.h"
-#include "GameExplosion.h"
+#include "GameObjects/GamePlayerShot.h"
+#include "GameObjects/GameEnemy.h"
+#include "GameObjects/GameEnemyShot.h"
+#include "GameObjects/GameExplosion.h"
+#include "CustomFunctions/GameEnemyFunctions.h"
 #include "Common.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;
 
-Scene* GameStage::createScene()
+Scene* SceneStage::createScene()
 {
-	return GameStage::create();
+	return SceneStage::create();
 }
 
 // on "init" you need to initialize your instance
-bool GameStage::init()
+bool SceneStage::init()
 {
 	//////////////////////////////
 	// 1. super init first
@@ -37,7 +37,7 @@ bool GameStage::init()
 	auto btnChange = MenuItemImage::create(
 		"ui/btn_change.png",
 		"ui/btn_change.png",
-		CC_CALLBACK_1(GameStage::menuChangeCallback, this));
+		CC_CALLBACK_1(SceneStage::menuChangeCallback, this));
 
 	btnChange->setPosition(Vec2(origin.x + visibleSize.width - btnChange->getContentSize().width * 2,
 		origin.y + btnChange->getContentSize().height / 2));
@@ -45,7 +45,7 @@ bool GameStage::init()
 	auto btnBomber = MenuItemImage::create(
 		"ui/btn_bomber.png",
 		"ui/btn_bomber.png",
-		CC_CALLBACK_1(GameStage::menuBomberCallback, this));
+		CC_CALLBACK_1(SceneStage::menuBomberCallback, this));
 
 	btnBomber->setPosition(Vec2(origin.x + visibleSize.width - btnChange->getContentSize().width / 2,
 		origin.y + btnBomber->getContentSize().height / 2));
@@ -74,13 +74,13 @@ bool GameStage::init()
 	EventDispatcher * dispatcher = Director::getInstance()->getEventDispatcher();
 	auto listener = EventListenerTouchOneByOne::create();
 	listener->setSwallowTouches(true);
-	listener->onTouchBegan = CC_CALLBACK_2(GameStage::onTouchBegan, this);
-	listener->onTouchMoved = CC_CALLBACK_2(GameStage::onTouchMoved, this);
-	listener->onTouchEnded = CC_CALLBACK_2(GameStage::onTouchEnded, this);
+	listener->onTouchBegan = CC_CALLBACK_2(SceneStage::onTouchBegan, this);
+	listener->onTouchMoved = CC_CALLBACK_2(SceneStage::onTouchMoved, this);
+	listener->onTouchEnded = CC_CALLBACK_2(SceneStage::onTouchEnded, this);
 	dispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
 	//플레이어 총알 자동 발사 액션
-	CallFunc * action_0 = CallFunc::create(CC_CALLBACK_0(GameStage::PlayerFireBullet, this));
+	CallFunc * action_0 = CallFunc::create(CC_CALLBACK_0(SceneStage::PlayerFireBullet, this));
 	CCDelayTime * action_1 = CCDelayTime::create(0.25f);
 	Sequence * action_playerfirebullet = Sequence::create(action_0, action_1, NULL);
 	CCRepeatForever * action_repeat = CCRepeatForever::create(action_playerfirebullet);
@@ -122,7 +122,7 @@ bool GameStage::init()
 	return true;
 }
 
-void GameStage::MovePlayer(float IN_fDestX, float IN_fDestY)
+void SceneStage::MovePlayer(float IN_fDestX, float IN_fDestY)
 {
 	m_Player.m_layerPlayer->setPosition(IN_fDestX, IN_fDestY);
 
@@ -132,7 +132,7 @@ void GameStage::MovePlayer(float IN_fDestX, float IN_fDestY)
 //	m_Player.m_layerPlayer->runAction(CCSequence::create(actionMove, actionMoveDone, NULL));
 }
 
-void GameStage::PlayerFireBullet() {
+void SceneStage::PlayerFireBullet() {
 
 	//CCLOG("goCall %s", (char*)d);
 	//Sprite *spr = (Sprite *)pSender;
@@ -188,7 +188,7 @@ void GameStage::PlayerFireBullet() {
 
 }
 
-void GameStage::MakeEnemy()
+void SceneStage::MakeEnemy()
 {
 	//에너미 생성
 	GameEnemy * pEnemy = new GameEnemy;
@@ -214,7 +214,7 @@ void GameStage::MakeEnemy()
 }
 
 //AddAngle, AddSpeed는 인터페이스만 만들었고 기능구현은 아직 하지 않았다.
-void GameStage::MakeEnemyShot(int IN_iBulletType, int IN_iBulletSubStyle, float IN_fX, float IN_fY, float IN_fSpeed, float IN_fAddSpeed, float IN_fAngle, float IN_fAddAngle, GameCustomFunction * IN_pBarrageFunction)
+void SceneStage::MakeEnemyShot(int IN_iBulletType, int IN_iBulletSubStyle, float IN_fX, float IN_fY, float IN_fSpeed, float IN_fAddSpeed, float IN_fAngle, float IN_fAddAngle, GameCustomFunction * IN_pBarrageFunction)
 {
 	//총알 생성
 	GameEnemyShot * pBullet = new GameEnemyShot;
@@ -247,7 +247,7 @@ void GameStage::MakeEnemyShot(int IN_iBulletType, int IN_iBulletSubStyle, float 
 	SimpleAudioEngine::getInstance()->playEffect("se/enemyshot.wav", false);
 }
 
-void GameStage::MakeExplosion(float IN_fX, float IN_fY, bool IN_bSmallExplosion)
+void SceneStage::MakeExplosion(float IN_fX, float IN_fY, bool IN_bSmallExplosion)
 {
 	//에너미 생성
 	GameExplosion * pExplosion = new GameExplosion;
@@ -268,7 +268,7 @@ void GameStage::MakeExplosion(float IN_fX, float IN_fY, bool IN_bSmallExplosion)
 	m_pLayerExplosion->addChild(pExplosion);
 }
 
-bool GameStage::onTouchBegan(Touch * touch, Event * event)
+bool SceneStage::onTouchBegan(Touch * touch, Event * event)
 {
 	//다중터치 고려안됨?
 	auto target = event->getCurrentTarget();
@@ -286,7 +286,7 @@ bool GameStage::onTouchBegan(Touch * touch, Event * event)
 	return true;
 }
 
-void GameStage::onTouchMoved(Touch * touch, Event * event)
+void SceneStage::onTouchMoved(Touch * touch, Event * event)
 {
 	if (m_Player.m_bMoving == true)
 	{
@@ -296,12 +296,12 @@ void GameStage::onTouchMoved(Touch * touch, Event * event)
 	}
 }
 
-void GameStage::onTouchEnded(Touch * touch, Event * event)
+void SceneStage::onTouchEnded(Touch * touch, Event * event)
 {
 	m_Player.m_bMoving = false;
 }
 
-void GameStage::update(float dt)
+void SceneStage::update(float dt)
 {
 	if ( ++m_iCurrentFrame % 60 == 0)
 	{
@@ -310,7 +310,7 @@ void GameStage::update(float dt)
 	}
 }
 
-void GameStage::menuCloseCallback(Ref* pSender)
+void SceneStage::menuCloseCallback(Ref* pSender)
 {
 	//Close the cocos2d-x game scene and quit the application
 	Director::getInstance()->end();
@@ -326,13 +326,13 @@ void GameStage::menuCloseCallback(Ref* pSender)
 
 }
 
-void GameStage::menuChangeCallback(cocos2d::Ref* pSender)
+void SceneStage::menuChangeCallback(cocos2d::Ref* pSender)
 {
 	//캐릭터 체인지
 	m_Player.ChangePlayer();
 }
 
-void GameStage::menuBomberCallback(cocos2d::Ref* pSender)
+void SceneStage::menuBomberCallback(cocos2d::Ref* pSender)
 {
 	
 }

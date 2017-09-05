@@ -10,6 +10,15 @@
     <Filter Include="src">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Scenes">
+      <UniqueIdentifier>{6b8888a3-598a-49e9-9bf1-3483ca2970b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameObjects">
+      <UniqueIdentifier>{7be2cd26-ef33-4dc7-837b-c8a22e025f14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\CustomFunctions">
+      <UniqueIdentifier>{1f0df72c-d459-4183-a885-8246d62e89d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -18,44 +27,47 @@
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GameStage.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GamePlayer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\GameUtil.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GameEnemy.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GameEnemyFunctions.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GamePlayerShot.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GameBaseObject.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GameCommonObject.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GameEnemyShot.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GameCustomFunction.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GameBarrageFunctions.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Common.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GameExplosion.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\Classes\GameObjects\GameBaseObject.cpp">
+      <Filter>src\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObjects\GameCommonObject.cpp">
+      <Filter>src\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObjects\GameEnemy.cpp">
+      <Filter>src\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObjects\GameEnemyShot.cpp">
+      <Filter>src\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObjects\GameExplosion.cpp">
+      <Filter>src\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObjects\GamePlayer.cpp">
+      <Filter>src\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameObjects\GamePlayerShot.cpp">
+      <Filter>src\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\CustomFunctions\GameBarrageFunctions.cpp">
+      <Filter>src\CustomFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\CustomFunctions\GameCustomFunction.cpp">
+      <Filter>src\CustomFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\CustomFunctions\GameEnemyFunctions.cpp">
+      <Filter>src\CustomFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scenes\SceneStage.cpp">
+      <Filter>src\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scenes\SceneLogo.cpp">
+      <Filter>src\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -65,44 +77,47 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameStage.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GamePlayer.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\GameUtil.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Common.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameEnemy.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Classes\GameObjects\GameBaseObject.h">
+      <Filter>src\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameCustomFunction.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Classes\GameObjects\GameCommonObject.h">
+      <Filter>src\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameEnemyFunctions.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Classes\GameObjects\GameEnemy.h">
+      <Filter>src\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GamePlayerShot.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Classes\GameObjects\GameEnemyShot.h">
+      <Filter>src\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameBaseObject.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Classes\GameObjects\GameExplosion.h">
+      <Filter>src\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameCommonObject.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Classes\GameObjects\GamePlayer.h">
+      <Filter>src\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameEnemyShot.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Classes\GameObjects\GamePlayerShot.h">
+      <Filter>src\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameBarrageFunctions.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Classes\CustomFunctions\GameBarrageFunctions.h">
+      <Filter>src\CustomFunctions</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GameExplosion.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Classes\CustomFunctions\GameCustomFunction.h">
+      <Filter>src\CustomFunctions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CustomFunctions\GameEnemyFunctions.h">
+      <Filter>src\CustomFunctions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scenes\SceneStage.h">
+      <Filter>src\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scenes\SceneLogo.h">
+      <Filter>src\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

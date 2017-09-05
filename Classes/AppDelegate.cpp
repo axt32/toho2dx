@@ -1,5 +1,6 @@
 #include "AppDelegate.h"
-#include "GameStage.h"
+#include "Scenes/SceneLogo.h"
+#include "Scenes/SceneStage.h"
 #include "Common.h"
 
 USING_NS_CC;
@@ -64,8 +65,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 	register_all_packages();
 
-	g_pGameStage = GameStage::create();
-	director->runWithScene(g_pGameStage);
+	g_pSceneLogo = SceneLogo::create();
+	director->runWithScene(g_pSceneLogo);
 	CCLOG("Scene Changes");
 
     return true;

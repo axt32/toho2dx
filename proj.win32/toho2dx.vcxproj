@@ -149,35 +149,37 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\Common.cpp" />
-    <ClCompile Include="..\Classes\GameBarrageFunctions.cpp" />
-    <ClCompile Include="..\Classes\GameEnemyFunctions.cpp" />
-    <ClCompile Include="..\Classes\GameEnemyShot.cpp" />
-    <ClCompile Include="..\Classes\GameCustomFunction.cpp" />
-    <ClCompile Include="..\Classes\GameEnemy.cpp" />
-    <ClCompile Include="..\Classes\GameCommonObject.cpp" />
-    <ClCompile Include="..\Classes\GameBaseObject.cpp" />
-    <ClCompile Include="..\Classes\GameExplosion.cpp" />
-    <ClCompile Include="..\Classes\GamePlayer.cpp" />
-    <ClCompile Include="..\Classes\GamePlayerShot.cpp" />
-    <ClCompile Include="..\Classes\GameStage.cpp" />
+    <ClCompile Include="..\Classes\CustomFunctions\GameBarrageFunctions.cpp" />
+    <ClCompile Include="..\Classes\CustomFunctions\GameCustomFunction.cpp" />
+    <ClCompile Include="..\Classes\CustomFunctions\GameEnemyFunctions.cpp" />
+    <ClCompile Include="..\Classes\GameObjects\GameBaseObject.cpp" />
+    <ClCompile Include="..\Classes\GameObjects\GameCommonObject.cpp" />
+    <ClCompile Include="..\Classes\GameObjects\GameEnemy.cpp" />
+    <ClCompile Include="..\Classes\GameObjects\GameEnemyShot.cpp" />
+    <ClCompile Include="..\Classes\GameObjects\GameExplosion.cpp" />
+    <ClCompile Include="..\Classes\GameObjects\GamePlayer.cpp" />
+    <ClCompile Include="..\Classes\GameObjects\GamePlayerShot.cpp" />
     <ClCompile Include="..\Classes\GameUtil.cpp" />
+    <ClCompile Include="..\Classes\Scenes\SceneLogo.cpp" />
+    <ClCompile Include="..\Classes\Scenes\SceneStage.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\Common.h" />
-    <ClInclude Include="..\Classes\GameBarrageFunctions.h" />
-    <ClInclude Include="..\Classes\GameEnemyFunctions.h" />
-    <ClInclude Include="..\Classes\GameEnemyShot.h" />
-    <ClInclude Include="..\Classes\GameCustomFunction.h" />
-    <ClInclude Include="..\Classes\GameEnemy.h" />
-    <ClInclude Include="..\Classes\GameCommonObject.h" />
-    <ClInclude Include="..\Classes\GameBaseObject.h" />
-    <ClInclude Include="..\Classes\GameExplosion.h" />
-    <ClInclude Include="..\Classes\GamePlayer.h" />
-    <ClInclude Include="..\Classes\GamePlayerShot.h" />
-    <ClInclude Include="..\Classes\GameStage.h" />
+    <ClInclude Include="..\Classes\CustomFunctions\GameBarrageFunctions.h" />
+    <ClInclude Include="..\Classes\CustomFunctions\GameCustomFunction.h" />
+    <ClInclude Include="..\Classes\CustomFunctions\GameEnemyFunctions.h" />
+    <ClInclude Include="..\Classes\GameObjects\GameBaseObject.h" />
+    <ClInclude Include="..\Classes\GameObjects\GameCommonObject.h" />
+    <ClInclude Include="..\Classes\GameObjects\GameEnemy.h" />
+    <ClInclude Include="..\Classes\GameObjects\GameEnemyShot.h" />
+    <ClInclude Include="..\Classes\GameObjects\GameExplosion.h" />
+    <ClInclude Include="..\Classes\GameObjects\GamePlayer.h" />
+    <ClInclude Include="..\Classes\GameObjects\GamePlayerShot.h" />
     <ClInclude Include="..\Classes\GameUtil.h" />
+    <ClInclude Include="..\Classes\Scenes\SceneLogo.h" />
+    <ClInclude Include="..\Classes\Scenes\SceneStage.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,3 +1,4 @@
 #include "Common.h"
 
-GameStage * g_pGameStage = nullptr;
+SceneLogo * g_pSceneLogo = nullptr;
+SceneStage * g_pSceneStage = nullptr;

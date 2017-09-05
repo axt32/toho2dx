@@ -70,7 +70,7 @@ void Stage1_EnemyPattern1::Run()
 		{
 			for (int i = 0; i < m_iBulletQuantity; i++)
 			{
-				g_pGameStage->MakeEnemyShot(m_iBulletStyle, m_iBulletSubStyle, m_pObject->getPositionX(), m_pObject->getPositionY(), (float)RandomHelper::random_int(15, 23) / 10.f, 0.f, (float)RandomHelper::random_int(0, 360), 0.f);
+				g_pSceneStage->MakeEnemyShot(m_iBulletStyle, m_iBulletSubStyle, m_pObject->getPositionX(), m_pObject->getPositionY(), (float)RandomHelper::random_int(15, 23) / 10.f, 0.f, (float)RandomHelper::random_int(0, 360), 0.f);
 			}
 
 			m_iShotBulletCurrentFrame = 0;

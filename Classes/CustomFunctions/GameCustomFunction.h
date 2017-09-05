@@ -1,6 +1,6 @@
 #pragma once
 #include "cocos2d.h"
-#include "GameBaseObject.h"
+#include "../GameObjects/GameBaseObject.h"
 USING_NS_CC;
 
 //상속받아 사용

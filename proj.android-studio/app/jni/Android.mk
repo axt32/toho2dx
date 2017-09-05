@@ -12,19 +12,20 @@ LOCAL_MODULE := MyGame_shared
 LOCAL_MODULE_FILENAME := libMyGame
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
-                   ../../../Classes/AppDelegate.cpp \
+                   ../../../Classes/CustomFunctions/GameBarrageFunctions.cpp \
+				   ../../../Classes/CustomFunctions/GameCustomFunction.cpp \
+				   ../../../Classes/CustomFunctions/GameEnemyFunctions.cpp \
+				   ../../../Classes/GameObjects/GameBaseObject.cpp \
+				   ../../../Classes/GameObjects/GameCommonObject.cpp \
+				   ../../../Classes/GameObjects/GameEnemy.cpp \
+				   ../../../Classes/GameObjects/GameEnemyShot.cpp \
+				   ../../../Classes/GameObjects/GameExplosion.cpp \
+				   ../../../Classes/GameObjects/GamePlayer.cpp \
+				   ../../../Classes/GameObjects/GamePlayerShot.cpp \
+				   ../../../Classes/Scenes/SceneLogo.cpp \
+				   ../../../Classes/Scenes/SceneStage.cpp \
+				   ../../../Classes/AppDelegate.cpp \
 				   ../../../Classes/Common.cpp \
-				   ../../../Classes/GameBarrageFunctions.cpp \
-				   ../../../Classes/GameBaseObject.cpp \
-				   ../../../Classes/GameCommonObject.cpp \
-				   ../../../Classes/GameCustomFunction.cpp \
-				   ../../../Classes/GameEnemy.cpp \
-				   ../../../Classes/GameEnemyFunctions.cpp \
-				   ../../../Classes/GameEnemyShot.cpp \
-				   ../../../Classes/GameExplosion.cpp \
-				   ../../../Classes/GamePlayer.cpp \
-				   ../../../Classes/GamePlayerShot.cpp \
-                   ../../../Classes/GameStage.cpp \
 				   ../../../Classes/GameUtil.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes

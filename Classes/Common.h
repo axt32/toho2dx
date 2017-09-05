@@ -1,6 +1,9 @@
 #pragma once
 #include "cocos2d.h"
-#include "GameStage.h"
+
+#include "Scenes/SceneLogo.h"
+#include "Scenes/SceneStage.h"
+
 USING_NS_CC;
 
 //게임 화면
@@ -51,4 +54,5 @@ USING_NS_CC;
 #define EXPLOSION_BIG_FRAMES 11
 
 //게임스테이지 신
-extern GameStage * g_pGameStage;
+extern SceneLogo * g_pSceneLogo;
+extern SceneStage * g_pSceneStage;

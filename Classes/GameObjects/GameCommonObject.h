@@ -1,6 +1,6 @@
 #pragma once
 #include "GameBaseObject.h"
-#include "GameCustomFunction.h"
+#include "../CustomFunctions/GameCustomFunction.h"
 
 class GameCommonObject : public GameBaseObject
 {

@@ -1,11 +1,11 @@
 #pragma once
 
 #include "cocos2d.h"
-#include "GamePlayer.h"
-#include "GameCustomFunction.h"
+#include "GameObjects/GamePlayer.h"
+#include "CustomFunctions/GameCustomFunction.h"
 
 class GamePlayerShot;
-class GameStage : public cocos2d::Scene		//원래는 Scene 였음
+class SceneStage : public cocos2d::Scene
 {
 
 public:
@@ -29,7 +29,7 @@ public:
 	virtual void update(float dt);
 
 	// implement the "static create()" method manually
-	CREATE_FUNC(GameStage);
+	CREATE_FUNC(SceneStage);
 
 	void MovePlayer(float IN_fDestX, float IN_fDestY);
 	void PlayerFireBullet();
